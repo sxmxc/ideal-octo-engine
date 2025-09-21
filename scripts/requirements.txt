@@ -1,0 +1,2 @@
+# Python requirements for repository automation
+# (Only standard library modules are required today; pin packages here as they are introduced.)

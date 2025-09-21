@@ -1,0 +1,16 @@
+{
+  "slug": "sample-toolkit",
+  "name": "Sample Diagnostics Toolkit",
+  "version": "0.1.0",
+  "description": "Reference toolkit showing directory structure and runtime entry points.",
+  "category": "observability",
+  "tags": ["sample", "diagnostics"],
+  "backend_module": "toolkits.sample-toolkit.backend.routes",
+  "backend_router_attr": "router",
+  "worker_module": "toolkits.sample-toolkit.worker.tasks",
+  "worker_register_attr": "register",
+  "frontend_entry": "toolkits/sample-toolkit/frontend/index.tsx",
+  "docs": {
+    "overview": "toolkits/sample-toolkit/docs/overview.md"
+  }
+}

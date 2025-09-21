@@ -1,0 +1,9 @@
+# Build artifacts
+/dist/
+
+# Python
+__pycache__/
+*.pyc
+
+# Node tooling (if added by toolkits)
+node_modules/

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "last_updated": null,
+  "session_counter": 0,
+  "active_task": null,
+  "last_task_id": null,
+  "recent_updates": [],
+  "candidate_next_tasks": [],
+  "notes": "Initialised with repository bootstrap."
+}
