@@ -32,7 +32,7 @@ jobs:
           pip install -r scripts/requirements.txt
 
       - name: Validate repository
-        run: scripts/validate-repo.sh
+        run: bash scripts/validate-repo.sh
 
       - name: Build static site
         run: |
