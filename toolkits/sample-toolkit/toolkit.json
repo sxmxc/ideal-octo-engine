@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Reference toolkit showing directory structure and runtime entry points.",
   "category": "observability",
-  "tags": ["sample", "diagnostics"],
+  "tags": ["sample", "diagnostics", "reference"],
   "backend_module": "toolkits.sample-toolkit.backend.routes",
   "backend_router_attr": "router",
   "worker_module": "toolkits.sample-toolkit.worker.tasks",
@@ -12,5 +12,9 @@
   "frontend_entry": "toolkits/sample-toolkit/frontend/index.tsx",
   "docs": {
     "overview": "toolkits/sample-toolkit/docs/overview.md"
+  },
+  "catalog": {
+    "categories": ["Diagnostics", "Examples"],
+    "maintainers": ["toolbox-maintainers@example.com"]
   }
 }

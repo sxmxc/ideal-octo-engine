@@ -483,14 +483,15 @@ metadata file, so updates are reflected as soon as a pull request is merged.
 Each toolkit entry is sourced from `catalog/toolkits.json`. To ensure your
 submission appears here:
 
-1. Add or update the catalog entry with an accurate `name`, `description`,
-   `version`, and a list of `tags`.
-2. Include a `categories` array to group the toolkit with similar solutions.
-   Categories appear in the filter list above.
-3. Set `docs_url` to the published documentation page (for example,
-   `"my-toolkit/"`). The path should resolve within this documentation site.
-4. Provide either a `source_url` or `source` path so the browser can link to
-   the implementation.
+1. Maintain accurate `name`, `description`, `version`, and `tags` in
+   `toolkits/<slug>/toolkit.json`. Use the optional `catalog` block in the
+   manifest to tailor public-facing details such as additional tags,
+   human-friendly descriptions, `maintainers`, and a `categories` array for the
+   filter UI.
+2. Run `scripts/sync_toolkit_assets.py --slug <slug>` to mirror the README into
+   `docs/<slug>/index.md`, regenerate the bundle placeholder, and sync
+   `catalog/toolkits.json` (including `docs_url`, `bundle_url`, and `source`) so
+   the browser can surface your submission without manual JSON edits.
 
 Refer to the [packaging guide](../toolkit-authoring/packaging.md) for a complete
 walkthrough of the catalog update workflow.

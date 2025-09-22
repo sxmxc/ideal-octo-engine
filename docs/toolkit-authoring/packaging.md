@@ -4,9 +4,23 @@ Once your toolkit implementation is ready, follow the steps below to bundle it f
 
 ## 1. Update metadata
 
-- Ensure `toolkits/<slug>/toolkit.json` is complete and versioned.
-- Add or update the corresponding entry in `catalog/toolkits.json` (keep entries sorted alphabetically by slug). Include `docs_url` (for example, `"<slug>/"`), a `bundle_url` pointing to `toolkits/<slug>/bundle/`, and at least one `categories` value so the browse experience can surface your toolkit.
+- Ensure `toolkits/<slug>/toolkit.json` is complete and versioned. Populate the optional `catalog` section with the public listing details you want surfaced (extra `tags`, human-friendly `categories`, `maintainers`, or alternate descriptions).
+- Run `scripts/sync_toolkit_assets.py --slug <slug>` to mirror the README into `docs/<slug>/index.md`, refresh the bundle placeholder under `docs/toolkits/<slug>/`, and update `catalog/toolkits.json` with the derived metadata (`docs_url`, `bundle_url`, `categories`, and more) sorted automatically by slug.
 - Provide changelog context in `docs/changelog.md` when releasing updates.
+
+  ```json
+  {
+    "slug": "my-toolkit",
+    "name": "My Toolkit",
+    "version": "1.2.3",
+    "catalog": {
+      "categories": ["Observability", "Diagnostics"],
+      "maintainers": ["oncall@example.com"],
+      "tags": ["dashboards", "slo"],
+      "description": "Public-facing blurb shown in the catalog browser."
+    }
+  }
+  ```
 
 ## 2. Validate locally
 
@@ -30,7 +44,7 @@ Attach the resulting zip to your pull request. Reviewers will attempt installati
 
 ## 4. Document the release
 
-- Keep `toolkits/<slug>/README.md` current; the sync script mirrors it to `docs/<slug>/index.md` so the documentation site stays fresh.
+- Keep `toolkits/<slug>/README.md` current and run `scripts/sync_toolkit_assets.py --slug <slug>`; the helper mirrors it to `docs/<slug>/index.md` and refreshes the bundle placeholder under `docs/toolkits/<slug>/` so the documentation site stays fresh.
 - Provide operator-focused documentation under `toolkits/<slug>/docs/` (runbook, troubleshooting, FAQ).
 - Complete the security review questionnaire (`docs/governance/security-review.md`) and attach it to the PR.
 
