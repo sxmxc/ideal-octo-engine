@@ -30,7 +30,7 @@ Attach the resulting zip to your pull request. Reviewers will attempt installati
 
 ## 4. Document the release
 
-- Keep `toolkits/<slug>/README.md` current; the sync script mirrors it to `docs/<slug>/index.md` so the documentation site stays fresh.
+- Keep `toolkits/<slug>/README.md` current and run `scripts/sync_toolkit_assets.py --slug <slug>`; the helper mirrors it to `docs/<slug>/index.md` and refreshes the bundle placeholder under `docs/toolkits/<slug>/` so the documentation site stays fresh.
 - Provide operator-focused documentation under `toolkits/<slug>/docs/` (runbook, troubleshooting, FAQ).
 - Complete the security review questionnaire (`docs/governance/security-review.md`) and attach it to the PR.
 

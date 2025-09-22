@@ -16,7 +16,8 @@ Thanks for your interest in contributing! This guide describes how to propose to
 4. **Validate** – Run `scripts/validate-toolkit.sh` (or the relevant automation) and capture output in your PR description.
 5. **Document** – Update README files, changelogs, and catalog metadata as needed.
    - Keep `toolkits/<slug>/README.md` current; reviewers treat it as the
-     canonical install guide and the automation mirrors it to `docs/<slug>/index.md`.
+     canonical install guide. Run `scripts/sync_toolkit_assets.py --slug <slug>`
+     to mirror updates to `docs/<slug>/index.md` and the bundle placeholder.
    - Update `catalog/toolkits.json` with `docs_url`, `bundle_url`, `categories`,
      and other metadata so the browse experience lists your submission.
 6. **Submit** – Open a PR using the template in `.github/PULL_REQUEST_TEMPLATE.md`.
@@ -31,7 +32,8 @@ Thanks for your interest in contributing! This guide describes how to propose to
       under `toolkits/<slug>/bundle/`, and at least one `categories` value for
       the browse filters.
 - [ ] Documentation under `toolkits/<slug>/docs/` covers installation, configuration, and known limitations.
-- [ ] Public docs exist at `docs/<slug>/index.md` and are linked from the
+- [ ] Public docs exist at `docs/<slug>/index.md` (regenerate with
+      `scripts/sync_toolkit_assets.py --slug <slug>`) and are linked from the
       MkDocs navigation.
 - [ ] Security review questionnaire (`docs/governance/security-review.md`) is attached to the PR.
 
