@@ -1,2 +1,3 @@
 # Python requirements for repository automation
-# (Only standard library modules are required today; pin packages here as they are introduced.)
+mkdocs>=1.5
+mkdocs-macros-plugin>=1.0

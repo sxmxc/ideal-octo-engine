@@ -36,8 +36,7 @@ jobs:
 
       - name: Build static site
         run: |
-          mkdir -p site
-          cp -R docs/. site/
+          mkdocs build --strict --clean --site-dir site
           mkdir -p site/catalog
           cp -R catalog/. site/catalog/
 
