@@ -63,13 +63,12 @@ def validate_entry(slug: str, entry: dict, *, strict: bool) -> list[str]:
     if not doc_page.exists():
         issues.append(f"Documentation page missing: docs/{slug}/index.md")
 
-    bundle_asset = REPO_ROOT / "docs" / "toolkits" / slug / "bundle.zip"
-    if not bundle_asset.exists():
-        issues.append(f"Bundle archive missing: docs/toolkits/{slug}/bundle.zip")
-    redirect_asset = REPO_ROOT / "docs" / "toolkits" / slug / "bundle" / "index.html"
-    if not redirect_asset.exists():
+    placeholder_asset = (
+        REPO_ROOT / "docs" / "toolkits" / slug / "bundle" / "index.html"
+    )
+    if not placeholder_asset.exists():
         issues.append(
-            f"Bundle redirect missing: docs/toolkits/{slug}/bundle/index.html"
+            f"Bundle placeholder missing: docs/toolkits/{slug}/bundle/index.html"
         )
     return issues
 
