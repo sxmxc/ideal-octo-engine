@@ -19,9 +19,8 @@ fi
 mkdir -p "$output_dir"
 package_name="${slug}-$(date +%Y%m%d).zip"
 
-# Regenerate generated documentation and bundle assets before validation so
-# validate_catalog.py sees the latest bundle artifacts even if they are
-# gitignored.
+# Regenerate generated documentation and bundle placeholders before validation
+# so validate_catalog.py sees the latest assets even if they are gitignored.
 python "$repo_root/scripts/sync_toolkit_assets.py" --slug "$slug"
 
 python "$repo_root/scripts/validate_catalog.py" --toolkit "$slug"

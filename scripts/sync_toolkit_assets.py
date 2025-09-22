@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Synchronize generated documentation and bundles for each toolkit.
+"""Synchronize generated documentation for each toolkit.
 
-This helper keeps the MkDocs documentation tree and downloadable bundles in
-sync with the source toolkits stored under ``toolkits/``.  Running the script
-ensures ``docs/<slug>/index.md`` mirrors ``toolkits/<slug>/README.md`` and that
-``docs/toolkits/<slug>/bundle.zip`` is freshly packaged.
+This helper keeps the MkDocs documentation tree in sync with the source
+toolkits stored under ``toolkits/``. Running the script ensures
+``docs/<slug>/index.md`` mirrors ``toolkits/<slug>/README.md`` and that each
+toolkit exposes a placeholder download page under ``docs/toolkits/<slug>/``.
 
 The script is idempotent: files are only rewritten when their content changes
 to avoid unnecessary churn in the git working tree.
@@ -12,9 +12,7 @@ to avoid unnecessary churn in the git working tree.
 from __future__ import annotations
 
 import argparse
-import filecmp
 import sys
-import tempfile
 import textwrap
 from pathlib import Path
 
@@ -22,20 +20,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DOCS_ROOT = REPO_ROOT / "docs"
 TOOLKITS_ROOT = REPO_ROOT / "toolkits"
-
-
-def _import_bundle_toolkit():  # pragma: no cover - thin wrapper for clarity
-    """Return the ``bundle_toolkit`` helper without creating a package."""
-
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
-    try:
-        from build_toolkit_bundle import bundle_toolkit  # type: ignore
-    finally:
-        sys.path.pop(0)
-    return bundle_toolkit
-
-
-bundle_toolkit = _import_bundle_toolkit()
 
 
 def _first_heading(markdown: str) -> str | None:
@@ -53,26 +37,27 @@ def _write_text_if_changed(path: Path, content: str) -> bool:
     return True
 
 
-def _write_binary_if_changed(source: Path, target: Path) -> bool:
-    if target.exists() and filecmp.cmp(source, target, shallow=False):
-        return False
-    target.write_bytes(source.read_bytes())
-    return True
-
-
-def _render_redirect_html(slug: str) -> str:
-    download_href = "../bundle.zip"
+def _render_bundle_placeholder(slug: str) -> str:
     return textwrap.dedent(
         f"""\
         <!doctype html>
         <html lang="en">
           <head>
             <meta charset="utf-8">
-            <meta http-equiv="refresh" content="0; url={download_href}">
-            <title>Downloading {slug} bundle</title>
+            <title>Download {slug} bundle</title>
           </head>
           <body>
-            <p>If you are not redirected automatically, <a href="{download_href}">download the bundle</a>.</p>
+            <h1>Download {slug} bundle</h1>
+            <p>
+              Bundles are generated on demand when requested from a running
+              Toolbox instance. Access this bundle via
+              <code>/toolkits/{slug}/bundle</code> on your deployment to
+              receive the latest archive.
+            </p>
+            <p>
+              This placeholder page remains in the documentation so historical
+              links stay functional.
+            </p>
           </body>
         </html>
         """
@@ -105,22 +90,10 @@ def sync_toolkit(slug: str) -> None:
         docs_dir.mkdir(parents=True, exist_ok=True)
         _write_text_if_changed(docs_dir / "index.md", document)
 
-    bundles_root = DOCS_ROOT / "toolkits" / slug
+    bundles_root = DOCS_ROOT / "toolkits" / slug / "bundle"
     bundles_root.mkdir(parents=True, exist_ok=True)
-    bundle_zip = bundles_root / "bundle.zip"
-
-    with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as tmp:
-        tmp_path = Path(tmp.name)
-    try:
-        bundle_toolkit(slug, tmp_path, quiet=True)
-        _write_binary_if_changed(tmp_path, bundle_zip)
-    finally:
-        tmp_path.unlink(missing_ok=True)
-
-    redirect_dir = bundles_root / "bundle"
-    redirect_dir.mkdir(parents=True, exist_ok=True)
-    redirect_path = redirect_dir / "index.html"
-    _write_text_if_changed(redirect_path, _render_redirect_html(slug))
+    placeholder_path = bundles_root / "index.html"
+    _write_text_if_changed(placeholder_path, _render_bundle_placeholder(slug))
 
 
 def discover_toolkits() -> list[str]:
