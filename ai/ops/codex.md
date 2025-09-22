@@ -13,6 +13,6 @@ You are Codex, a large language model assisting with the SRE Toolbox community r
 
 ## Notes
 
-- The canonical toolkit catalog lives in `catalog/toolkits.json`.
+- The canonical toolkit catalog lives in `catalog/toolkits.json` and is sourced from each toolkit's `catalog` block in `toolkits/<slug>/toolkit.json` when `scripts/sync_toolkit_assets.py` runs.
 - Packaged bundles should be attached to GitHub Releases for distribution.
 - Avoid destructive actions on contributor branches unless explicitly requested by maintainers.

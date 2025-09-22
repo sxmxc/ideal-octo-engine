@@ -16,10 +16,11 @@ Thanks for your interest in contributing! This guide describes how to propose to
 4. **Validate** – Run `scripts/validate-toolkit.sh` (or the relevant automation) and capture output in your PR description.
 5. **Document** – Update README files, changelogs, and catalog metadata as needed.
    - Keep `toolkits/<slug>/README.md` current; reviewers treat it as the
-     canonical install guide. Run `scripts/sync_toolkit_assets.py --slug <slug>`
-     to mirror updates to `docs/<slug>/index.md` and the bundle placeholder.
-   - Update `catalog/toolkits.json` with `docs_url`, `bundle_url`, `categories`,
-     and other metadata so the browse experience lists your submission.
+     canonical install guide. Define public listing details (categories,
+     maintainers, alternate descriptions) in the optional `catalog` section of
+     `toolkits/<slug>/toolkit.json` and run `scripts/sync_toolkit_assets.py --slug
+     <slug>` to mirror updates to `docs/<slug>/index.md`, refresh the bundle
+     placeholder, and sync `catalog/toolkits.json` for the browse experience.
 6. **Submit** – Open a PR using the template in `.github/PULL_REQUEST_TEMPLATE.md`.
 7. **Review** – Address reviewer feedback promptly. Maintainers will verify packaging, security expectations, and documentation coverage.
 
@@ -27,10 +28,11 @@ Thanks for your interest in contributing! This guide describes how to propose to
 
 - [ ] Toolkit directory follows `toolkits/<slug>/` layout with `toolkit.json` and optional runtime modules.
 - [ ] Bundle builds with `scripts/package-toolkit.sh <slug>`.
-- [ ] Toolkit metadata appears in `catalog/toolkits.json` with accurate version and tags.
-- [ ] Catalog entry includes `docs_url` (e.g. `"<slug>/"`), a `bundle_url`
-      under `toolkits/<slug>/bundle/`, and at least one `categories` value for
-      the browse filters.
+- [ ] `toolkits/<slug>/toolkit.json` includes any required `catalog`
+      overrides (categories, maintainers, public tags, description tweaks).
+- [ ] `scripts/sync_toolkit_assets.py --slug <slug>` has been run so
+      `catalog/toolkits.json` reflects the toolkit with accurate version,
+      `docs_url`, `bundle_url`, tags, and categories.
 - [ ] Documentation under `toolkits/<slug>/docs/` covers installation, configuration, and known limitations.
 - [ ] Public docs exist at `docs/<slug>/index.md` (regenerate with
       `scripts/sync_toolkit_assets.py --slug <slug>`) and are linked from the
