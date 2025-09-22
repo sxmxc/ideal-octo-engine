@@ -16,11 +16,9 @@ Thanks for your interest in contributing! This guide describes how to propose to
 4. **Validate** – Run `scripts/validate-toolkit.sh` (or the relevant automation) and capture output in your PR description.
 5. **Document** – Update README files, changelogs, and catalog metadata as needed.
    - Keep `toolkits/<slug>/README.md` current; reviewers treat it as the
-     canonical install guide.
-   - Create a documentation landing page at `docs/<slug>/index.md` (copy
-     `docs/sample-toolkit/index.md` as a template) and add it to `mkdocs.yml`.
-   - Update `catalog/toolkits.json` with `docs_url`, `categories`, and other
-     metadata so the browse experience lists your submission.
+     canonical install guide and the automation mirrors it to `docs/<slug>/index.md`.
+   - Update `catalog/toolkits.json` with `docs_url`, `bundle_url`, `categories`,
+     and other metadata so the browse experience lists your submission.
 6. **Submit** – Open a PR using the template in `.github/PULL_REQUEST_TEMPLATE.md`.
 7. **Review** – Address reviewer feedback promptly. Maintainers will verify packaging, security expectations, and documentation coverage.
 
@@ -29,8 +27,9 @@ Thanks for your interest in contributing! This guide describes how to propose to
 - [ ] Toolkit directory follows `toolkits/<slug>/` layout with `toolkit.json` and optional runtime modules.
 - [ ] Bundle builds with `scripts/package-toolkit.sh <slug>`.
 - [ ] Toolkit metadata appears in `catalog/toolkits.json` with accurate version and tags.
-- [ ] Catalog entry includes `docs_url` (e.g. `"<slug>/"`) and at least one
-      `categories` value for the browse filters.
+- [ ] Catalog entry includes `docs_url` (e.g. `"<slug>/"`), a `bundle_url`
+      under `toolkits/<slug>/bundle/`, and at least one `categories` value for
+      the browse filters.
 - [ ] Documentation under `toolkits/<slug>/docs/` covers installation, configuration, and known limitations.
 - [ ] Public docs exist at `docs/<slug>/index.md` and are linked from the
       MkDocs navigation.

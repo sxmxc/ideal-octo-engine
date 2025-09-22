@@ -2,28 +2,27 @@
 title: Sample Diagnostics Toolkit
 ---
 
+<!-- This file is auto-generated from toolkits/sample-toolkit/README.md. -->
+
 # Sample Diagnostics Toolkit
 
-The Sample Diagnostics Toolkit acts as a reference implementation for community contributors. It demonstrates the expected bundle layout and runtime entry points used by SRE Toolbox installations.
+This toolkit demonstrates repository conventions for backend, worker, and frontend integration.
 
-## Runtime components
+## Features
 
-- **Backend** – Exposes `/toolkits/sample/health` for smoke testing.
-- **Worker** – Registers the `sample-toolkit.run_diagnostics` Celery task, which emits a static success payload.
-- **Frontend** – Renders a minimal panel that confirms the bundle mounted correctly.
+- FastAPI route at `/toolkits/sample/health` for installation smoke tests.
+- Celery task `sample-toolkit.run_diagnostics` returning a static diagnostic payload.
+- Minimal React panel confirming frontend mounting.
 
-## Installation and packaging
+## Installation
 
-1. Clone the repository and ensure Python 3.11+ is available.
-2. Package the toolkit:
+1. Package the toolkit:
    ```bash
    scripts/package-toolkit.sh sample-toolkit
    ```
-3. Upload the generated zip (`dist/sample-toolkit-<date>.zip`) through the Toolbox Admin → Toolkits UI.
-4. Verify the `/toolkits/sample/health` endpoint returns HTTP 200 with status `ok`.
+2. Upload the generated zip (`dist/sample-toolkit-<date>.zip`) through the Toolbox Admin → Toolkits UI.
+3. Verify the `/toolkits/sample/health` endpoint returns a 200 status.
 
-The toolkit manifest is available at [`toolkits/sample-toolkit/toolkit.json`]({{ repo_url }}/blob/main/toolkits/sample-toolkit/toolkit.json).
+## Configuration
 
-## Maintenance
-
-The toolkit is maintained by the SRE Toolbox core team and should remain stable. Use it as a scaffold when authoring new toolkits and update documentation to reflect best practices.
+No runtime configuration is required. Use this toolkit as a scaffold when authoring your own bundles.

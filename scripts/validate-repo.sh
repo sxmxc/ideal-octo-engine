@@ -5,6 +5,9 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. && pwd)"
 
 cd "$repo_root"
 
+# Ensure generated documentation and bundles are current.
+python scripts/sync_toolkit_assets.py
+
 # Ensure toolkit metadata stays in sync with directory contents.
 python scripts/validate_catalog.py
 

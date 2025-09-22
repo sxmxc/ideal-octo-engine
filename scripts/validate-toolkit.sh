@@ -8,4 +8,5 @@ fi
 
 slug="$1"
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. && pwd)"
+python "$repo_root/scripts/sync_toolkit_assets.py" --slug "$slug"
 python "$repo_root/scripts/validate_catalog.py" --toolkit "$slug" --strict

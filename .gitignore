@@ -1,6 +1,10 @@
 # Build artifacts
 /dist/
 
+# Generated toolkit bundles (created by sync_toolkit_assets.py)
+docs/toolkits/*/bundle.zip
+
+
 # Python
 __pycache__/
 *.pyc
