@@ -114,6 +114,10 @@ main() {
     paths+=("${path}")
   done
 
+  for slug in "${new_toolkit_slugs[@]}"; do
+    paths+=("toolkits/${slug}")
+  done
+
   if [[ ${#paths[@]} -eq 0 ]]; then
     echo "Error: no paths selected for sparse checkout." >&2
     exit 1
