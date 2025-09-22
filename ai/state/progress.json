@@ -1,10 +1,16 @@
 {
   "version": 1,
-  "last_updated": null,
-  "session_counter": 0,
-  "active_task": null,
-  "last_task_id": null,
-  "recent_updates": [],
-  "candidate_next_tasks": [],
-  "notes": "Initialised with repository bootstrap."
+  "last_updated": "2025-09-22T08:07:13Z",
+  "session_counter": 1,
+  "active_task": "repo-overhaul",
+  "last_task_id": "repo-overhaul",
+  "recent_updates": [
+    "Standardised toolkit doc generation and bundle publishing pipeline.",
+    "Refreshed sample and regex toolkit metadata and docs."
+  ],
+  "candidate_next_tasks": [
+    "Expand CI coverage for toolkit tests",
+    "Document bundle service deployment pattern"
+  ],
+  "notes": "Overhauled automation scripts, toolkit layout, and documentation for catalog and bundle flow."
 }

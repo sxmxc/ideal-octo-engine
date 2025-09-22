@@ -8,13 +8,14 @@
 ├── docs/                  # Documentation for authors, maintainers, and governance
 ├── scripts/               # Validation and packaging helpers
 ├── toolkits/              # Source directories for each community toolkit
-└── dist/                  # Build artifacts produced by packaging scripts (ignored in git)
 ```
 
 ## Key files
 
-- `catalog/toolkits.json` – Canonical metadata for all published toolkits.
+- `catalog/toolkits.json` – Canonical metadata for all published toolkits. This is the manifest of all available toolkits.
 - `docs/catalog/` – Interactive catalog browser backed by the metadata file.
+- `docs/<slug>/index.md` – Auto-generated toolkit overview sourced from `toolkits/<slug>/docs/README.md`.
+- `docs/toolkits/<slug>/bundle/` – Redirect helper that serves the generated `bundle.zip` for GitHub Pages deployments.
 - `docs/toolkit-authoring/` – Guides for building, testing, and shipping toolkits.
 - `docs/governance/` – Contribution workflow, review process, and security expectations.
 - `toolkits/<slug>/toolkit.json` – Toolkit manifest plus optional `catalog` metadata mirrored into `catalog/toolkits.json`.

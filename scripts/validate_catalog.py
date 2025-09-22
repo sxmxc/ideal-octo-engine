@@ -6,6 +6,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = REPO_ROOT / "catalog" / "toolkits.json"
+DOCS_ROOT = REPO_ROOT / "docs"
 
 
 def load_catalog() -> dict:
@@ -59,16 +60,26 @@ def validate_entry(slug: str, entry: dict, *, strict: bool) -> list[str]:
                 f"Catalog entry for {slug} should expose bundle_url under toolkits/{slug}/"
             )
 
-    doc_page = REPO_ROOT / "docs" / slug / "index.md"
+    doc_page = DOCS_ROOT / slug / "index.md"
     if not doc_page.exists():
         issues.append(f"Documentation page missing: docs/{slug}/index.md")
 
-    placeholder_asset = (
-        REPO_ROOT / "docs" / "toolkits" / slug / "bundle" / "index.html"
-    )
-    if not placeholder_asset.exists():
+    bundle_placeholder = DOCS_ROOT / "toolkits" / slug / "index.html"
+    if not bundle_placeholder.exists():
         issues.append(
-            f"Bundle placeholder missing: docs/toolkits/{slug}/bundle/index.html"
+            f"Bundle placeholder missing: docs/toolkits/{slug}/index.html"
+        )
+
+    bundle_redirect = DOCS_ROOT / "toolkits" / slug / "bundle" / "index.html"
+    if not bundle_redirect.exists():
+        issues.append(
+            f"Bundle redirect missing: docs/toolkits/{slug}/bundle/index.html"
+        )
+
+    bundle_zip = DOCS_ROOT / "toolkits" / slug / "bundle.zip"
+    if not bundle_zip.exists():
+        issues.append(
+            f"Generated bundle missing: docs/toolkits/{slug}/bundle.zip"
         )
     return issues
 

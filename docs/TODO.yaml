@@ -16,6 +16,10 @@ areas:
         title: Expand CI to run toolkit unit tests
         status: backlog
         priority: medium
+      - id: document-bundle-service
+        title: Document bundle service deployment pattern
+        status: backlog
+        priority: medium
       - id: markdown-style
         title: Enforce markdown style checks across docs
         status: backlog

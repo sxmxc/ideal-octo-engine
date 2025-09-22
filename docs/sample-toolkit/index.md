@@ -2,7 +2,7 @@
 title: Sample Diagnostics Toolkit
 ---
 
-<!-- This file is auto-generated from toolkits/sample-toolkit/README.md. -->
+<!-- This file is auto-generated from toolkits/sample-toolkit/docs/README.md. -->
 
 # Sample Diagnostics Toolkit
 

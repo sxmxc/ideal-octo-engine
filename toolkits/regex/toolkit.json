@@ -1,0 +1,29 @@
+{
+  "slug": "regex",
+  "name": "Regex Toolkit",
+  "version": "0.1.0",
+  "catalog": {
+      "categories": ["Diagnostics"],
+      "maintainers": ["steven.mcneely@live.com"],
+      "tags": ["dashboards", "slo"],
+      "description": "A toolkit for testing and debugging regular expressions with real-time feedback."
+    },
+  "description": "Evaluate expressions, inspect matches, and remember to use Python-style named groups (e.g. (?P<name>...)).",
+  "base_path": "/toolkits/regex",
+  "backend": {
+    "module": "backend.app",
+    "router_attr": "router"
+  },
+  "frontend": {
+    "entry": "frontend/dist/index.js",
+    "source_entry": "frontend/index.tsx"
+  },
+  "dashboard_cards": [
+    {
+      "title": "Regex Playground",
+      "body": "Test patterns with instant feedback and capture group visibility.",
+      "link_text": "Try it",
+      "link_href": "/toolkits/regex"
+    }
+  ]
+}

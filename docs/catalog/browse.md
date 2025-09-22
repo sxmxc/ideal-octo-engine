@@ -488,8 +488,9 @@ submission appears here:
    manifest to tailor public-facing details such as additional tags,
    human-friendly descriptions, `maintainers`, and a `categories` array for the
    filter UI.
-2. Run `scripts/sync_toolkit_assets.py --slug <slug>` to mirror the README into
-   `docs/<slug>/index.md`, regenerate the bundle placeholder, and sync
+2. Run `scripts/sync_toolkit_assets.py --slug <slug>` to mirror
+   `toolkits/<slug>/docs/README.md` into `docs/<slug>/index.md`, regenerate the
+   bundle assets, and sync
    `catalog/toolkits.json` (including `docs_url`, `bundle_url`, and `source`) so
    the browser can surface your submission without manual JSON edits.
 

@@ -8,6 +8,7 @@ nav:
   - Home: index.md
   - Catalog:
       - Browse toolkits: catalog/browse.md
+      - Regex Toolkit: regex/index.md
       - Sample Diagnostics Toolkit: sample-toolkit/index.md
   - Documentation:
       - Repository structure: structure.md

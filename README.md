@@ -17,7 +17,7 @@ Welcome to the community-driven catalog of SRE Toolbox toolkits. This repository
 
 ## Toolkit catalog
 
-Published toolkits live under `toolkits/`. Each toolkit directory mirrors the installable bundle layout (`toolkit.json`, optional `backend/`, `worker/`, `frontend/`, `docs/`). Catalog metadata is generated from `catalog/toolkits.json` and surfaced through GitHub Pages.
+Published toolkits live under `toolkits/`. Each toolkit directory mirrors the installable bundle layout (`toolkit.json`, optional `backend/`, `worker/`, `frontend/`, `docs/`). Run `scripts/sync_toolkit_assets.py` to mirror `toolkits/<slug>/docs/README.md` into `docs/<slug>/index.md`, regenerate `catalog/toolkits.json`, and publish the download endpoint served from `docs/toolkits/<slug>/bundle/`.
 
 ## Support & Governance
 

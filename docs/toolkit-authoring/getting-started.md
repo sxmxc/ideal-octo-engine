@@ -65,7 +65,7 @@ To automate the same flow, run `scripts/setup-sparse-checkout.sh --new-toolkit <
 2. Copy `toolkits/sample-toolkit/` as a starting point (`cp -R sample-toolkit <your-slug>`).
 3. Update `toolkit.json` with your toolkit slug, name, version, and entry points.
 4. Implement backend, worker, and frontend modules as needed.
-5. Document configuration, runbooks, and limitations under `toolkits/<slug>/docs/`. Keep `toolkits/<slug>/README.md` current, define catalog metadata (categories, maintainers, and any overrides) in the optional `catalog` section of `toolkits/<slug>/toolkit.json`, and run `scripts/sync_toolkit_assets.py --slug <slug>` to regenerate the public overview at `docs/<slug>/index.md`, refresh the bundle placeholder under `docs/toolkits/<slug>/`, and sync `catalog/toolkits.json` so users can browse your toolkit without cloning the repository.
+5. Document configuration, runbooks, and limitations under `toolkits/<slug>/docs/`. Keep `toolkits/<slug>/docs/README.md` current, define catalog metadata (categories, maintainers, and any overrides) in the optional `catalog` section of `toolkits/<slug>/toolkit.json`, and run `scripts/sync_toolkit_assets.py --slug <slug>` to regenerate the public overview at `docs/<slug>/index.md`, refresh the bundle assets under `docs/toolkits/<slug>/`, and sync `catalog/toolkits.json` so users can browse your toolkit without cloning the repository.
 6. Run `scripts/validate-toolkit.sh <slug>` and address any findings.
 7. Run integration tests within a Toolbox environment.
 8. Submit a PR with the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.

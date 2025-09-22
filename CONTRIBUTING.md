@@ -15,7 +15,7 @@ Thanks for your interest in contributing! This guide describes how to propose to
 3. **Develop test-first** – Add or update tests and validation scripts before making behavioural changes.
 4. **Validate** – Run `scripts/validate-toolkit.sh` (or the relevant automation) and capture output in your PR description.
 5. **Document** – Update README files, changelogs, and catalog metadata as needed.
-   - Keep `toolkits/<slug>/README.md` current; reviewers treat it as the
+   - Keep `toolkits/<slug>/docs/README.md` current; reviewers treat it as the
      canonical install guide. Define public listing details (categories,
      maintainers, alternate descriptions) in the optional `catalog` section of
      `toolkits/<slug>/toolkit.json` and run `scripts/sync_toolkit_assets.py --slug
