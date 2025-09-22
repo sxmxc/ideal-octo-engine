@@ -1,34 +1,46 @@
----
-title: SRE Toolbox Catalog
----
+# SRE Toolbox community catalog
 
-# SRE Toolbox Community Catalog
+This repository hosts community-maintained toolkits for the SRE Toolbox
+platform. Operators download bundles from the dynamic bundler exposed at
+`/toolkits/<slug>/bundle.zip`, while contributors rely on the documentation and
+automation in this catalog to publish updates safely.
 
-Welcome to the public landing page for the SRE Toolbox community repository. This site highlights vetted toolkits and collects documentation for authors, reviewers, and operators who rely on the platform.
+## Quick start for contributors
 
-## Explore the catalog
+1. Read [architecture](architecture.md) for a refresher on the Toolbox control
+   plane, worker, App Shell, and the dynamic bundler.
+2. Follow the author checklist in [toolkit authoring](toolkit-authoring.md) and
+   the test plan in [testing](testing.md).
+3. Keep the manifest rules in [catalog maintenance](catalog.md) handy when
+   updating `catalog/toolkits.json`.
+4. Use [dynamic bundler operations](bundler.md) to run or verify the on-demand
+   packaging service locally.
+5. New maintainers can follow [onboarding](onboarding.md) to configure a lean
+   workspace quickly.
 
-- [Browse all community toolkits](catalog/browse.md)
-- [Regex Toolkit](regex/index.md)
-- [Sample Diagnostics Toolkit](sample-toolkit/index.md)
-- [Download the machine-readable catalog]({{ raw_catalog_url }})
-- [Browse the repository on GitHub]({{ repo_url }})
+## Required validations
 
-## Documentation for contributors
-
-- [Repository structure](structure.md)
-- [Toolkit authoring – getting started](toolkit-authoring/getting-started.md)
-- [Packaging checklist](toolkit-authoring/packaging.md)
-- [Contribution process](governance/contribution-process.md)
-- [Security review guidelines](governance/security-review.md)
-
-## Automation helpers
-
-Package and validate toolkits with the scripts included in this repository:
+Run these commands from the repository root before submitting a pull request or
+publishing documentation:
 
 ```bash
+scripts/sync_toolkit_assets.py
+scripts/validate_catalog.py --strict
 scripts/validate-repo.sh
-scripts/package-toolkit.sh <slug>
+mkdocs build --strict --clean --site-dir site
 ```
 
-See the [scripts directory]({{ repo_url }}/tree/main/scripts) for additional helpers and usage details.
+## Submission checklist
+
+- [ ] Toolkit directory follows `toolkits/<slug>/` layout with backend, worker,
+      frontend, and docs assets as required.
+- [ ] `toolkits/<slug>/docs/README.md`, `RELEASE_NOTES.md`, `TESTING.md`, and
+      `CHANGELOG.md` are current and referenced in the manifest.
+- [ ] `catalog/toolkits.json` entry updated with the correct `bundle_url`
+      (`toolkits/<slug>/bundle.zip`) and `docs_url` (`toolkits/<slug>/`).
+- [ ] Dynamic bundler verified with `curl` or `httpie` against the local
+      `toolkit_bundle_service.py` instance.
+- [ ] Evidence from [testing](testing.md) attached to the pull request.
+
+Refer to [backlog](backlog.md) for outstanding tasks and future automation
+ideas.

@@ -1,0 +1,71 @@
+version: 1
+updated: 2025-09-22
+owners:
+  - team: sre-toolbox
+  - ai: codex
+workflow:
+  cadence: "Review at the start of each Codex session and after major merges."
+  notes:
+    - "Mark finished items with status: done and keep a short completion summary."
+    - "Document blockers directly on the task so future sessions can unblock them quickly."
+areas:
+  - id: bundler-automation
+    title: Bundler automation & validation
+    summary: Automating tests, schema validation, and bundle consistency checks.
+    tasks:
+      - id: integration-tests
+        title: Add automated integration tests that call the dynamic bundler for every toolkit slug.
+        status: backlog
+        priority: high
+      - id: schema-validation
+        title: Extend scripts/validate-toolkit.sh with schema validation for toolkit.json.
+        status: backlog
+        priority: medium
+      - id: ci-checksums
+        title: Add CI to compare bundle checksums before and after a change.
+        status: backlog
+        priority: medium
+      - id: integration-tests-notes
+        title: Replaced static bundle assets with the on-demand bundler.
+        status: done
+        priority: high
+        notes:
+          - "2025-09-21: Cut over to dynamic bundler for all toolkit assets; static bundle build removed."
+      - id: catalog-docs
+        title: Updated catalog documentation for bundle.zip endpoints.
+        status: done
+        priority: medium
+        notes:
+          - "2025-09-21: Documented new on-demand bundle.zip endpoints in catalog docs."
+      - id: toolkit-docs
+        title: Added per-toolkit release notes, changelog, and testing evidence files.
+        status: done
+        priority: medium
+        notes:
+          - "2025-09-21: Each toolkit now ships with release notes and testing evidence."
+  - id: infra-publishing
+    title: Infrastructure & publishing
+    summary: Hosting manifests, bundlers, and documenting incident handling.
+    tasks:
+      - id: publish-terraform
+        title: Publish reference Terraform for hosting the manifest and bundler on the community CDN.
+        status: backlog
+        priority: high
+      - id: incident-response
+        title: Document incident response steps for bundle-serving failures.
+        status: backlog
+        priority: medium
+  - id: documentation-site
+    title: Documentation build & publishing
+    summary: Tracking MkDocs prerequisites and ensuring the site builds cleanly.
+    tasks:
+      - id: mkdocs-dependency-spec
+        title: Capture MkDocs build dependencies in a requirements file and update contributor setup docs.
+        status: backlog
+        priority: high
+        notes:
+          - "2025-09-22: mkdocs build fails locally because MkDocs is not installed; document and pin dependencies."
+      - id: doc-build-ci
+        title: Add CI coverage that runs mkdocs build --strict to catch missing dependencies.
+        status: backlog
+        priority: medium

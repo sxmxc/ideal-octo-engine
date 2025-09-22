@@ -1,51 +1,59 @@
-# Contributing to the SRE Toolbox Community Repository
+# Contributing to the SRE Toolbox community catalog
 
-Thanks for your interest in contributing! This guide describes how to propose toolkits, documentation updates, or automation improvements.
+Thanks for helping maintain the community toolkit catalog.
 
 ## Ways to contribute
 
-- **Publish a toolkit** – Follow `docs/toolkit-authoring/packaging.md` to prepare a bundle and submit it under `toolkits/`.
-- **Improve documentation** – Update files under `docs/` to clarify toolkit authoring, governance, or onboarding workflows.
-- **Enhance automation** – Refine scripts, CI workflows, or Codex automation prompts.
+- **Author or update a toolkit** under `toolkits/<slug>/`.
+- **Improve documentation** in `docs/` to clarify workflows and expectations.
+- **Enhance automation** in `scripts/` and `toolkit_bundle_service.py`.
 
-## Contribution workflow
+## Workflow overview
 
-1. **Discuss** – For significant changes, open a discussion or issue to gather feedback first.
-2. **Fork & branch** – Create a topic branch in your fork (`toolkit/<slug>-<change>`).
-3. **Develop test-first** – Add or update tests and validation scripts before making behavioural changes.
-4. **Validate** – Run `scripts/validate-toolkit.sh` (or the relevant automation) and capture output in your PR description.
-5. **Document** – Update README files, changelogs, and catalog metadata as needed.
-   - Keep `toolkits/<slug>/docs/README.md` current; reviewers treat it as the
-     canonical install guide. Define public listing details (categories,
-     maintainers, alternate descriptions) in the optional `catalog` section of
-     `toolkits/<slug>/toolkit.json` and run `scripts/sync_toolkit_assets.py --slug
-     <slug>` to mirror updates to `docs/<slug>/index.md`, refresh the bundle
-     placeholder, and sync `catalog/toolkits.json` for the browse experience.
-6. **Submit** – Open a PR using the template in `.github/PULL_REQUEST_TEMPLATE.md`.
-7. **Review** – Address reviewer feedback promptly. Maintainers will verify packaging, security expectations, and documentation coverage.
+1. **Plan** – Discuss significant changes via an issue or discussion first.
+2. **Branch** – Create a topic branch (`toolkit/<slug>-<change>` or
+   `docs/<topic>`).
+3. **Implement** – Update toolkit code, documentation, and automation as
+   required. Keep changes focused and self-contained.
+4. **Sync metadata** – Run `python scripts/sync_toolkit_assets.py --slug <slug>`
+   to regenerate `docs/toolkits/<slug>/index.md` and update the catalog entry.
+5. **Validate** – Execute the required checks:
+   ```bash
+   python scripts/validate_catalog.py --strict --toolkit <slug>
+   scripts/validate-toolkit.sh <slug>
+   scripts/validate-repo.sh
+   mkdocs build --strict --clean --site-dir site
+   ```
+6. **Verify bundler output** – Start `uvicorn toolkit_bundle_service:application`
+   and confirm `GET /toolkits/<slug>/bundle.zip` returns a valid archive.
+7. **Submit** – Open a pull request using the supplied template and attach test
+   evidence plus command output.
+8. **Review** – Respond quickly to feedback; maintainers will double-check the
+   manifest, docs, and bundler endpoint.
 
 ## Toolkit submission checklist
 
-- [ ] Toolkit directory follows `toolkits/<slug>/` layout with `toolkit.json` and optional runtime modules.
-- [ ] Bundle builds with `scripts/package-toolkit.sh <slug>`.
-- [ ] `toolkits/<slug>/toolkit.json` includes any required `catalog`
-      overrides (categories, maintainers, public tags, description tweaks).
-- [ ] `scripts/sync_toolkit_assets.py --slug <slug>` has been run so
-      `catalog/toolkits.json` reflects the toolkit with accurate version,
-      `docs_url`, `bundle_url`, tags, and categories.
-- [ ] Documentation under `toolkits/<slug>/docs/` covers installation, configuration, and known limitations.
-- [ ] Public docs exist at `docs/<slug>/index.md` (regenerate with
-      `scripts/sync_toolkit_assets.py --slug <slug>`) and are linked from the
-      MkDocs navigation.
-- [ ] Security review questionnaire (`docs/governance/security-review.md`) is attached to the PR.
+- [ ] Directory follows `toolkits/<slug>/` layout and includes
+      backend/worker/frontend modules as needed.
+- [ ] `toolkits/<slug>/toolkit.json` updated with version, slug, and catalog
+      metadata.
+- [ ] Documentation files (`README.md`, `RELEASE_NOTES.md`, `CHANGELOG.md`,
+      `TESTING.md`) updated with numbered steps and explicit file paths.
+- [ ] `scripts/sync_toolkit_assets.py --slug <slug>` executed and diff reviewed.
+- [ ] Dynamic bundler endpoint verified locally with curl and unzip tests.
+- [ ] `scripts/validate_catalog.py --strict` and `scripts/validate-toolkit.sh`
+      outputs attached to the PR.
+- [ ] MkDocs build passes without warnings (`mkdocs build --strict`).
 
-## Coding standards
+## Coding expectations
 
-- Backend Python code uses `ruff` and `pytest` for linting/tests.
-- Frontend TypeScript/React code uses `eslint` and `vitest`.
-- Worker tasks should include integration or smoke tests where feasible.
-- Follow the existing project conventions for logging, configuration, and telemetry.
+- Follow upstream Toolbox conventions for logging, telemetry, and error
+  handling.
+- Include automated tests where feasible (backend: `pytest`, frontend: `vitest`).
+- Avoid absolute paths, parent-directory references, or symlinks inside toolkit
+  directories. Bundles should be self-contained.
 
 ## License
 
-Unless stated otherwise, contributions are licensed under the Apache 2.0 License. See `LICENSE` for details.
+Unless noted otherwise, contributions are licensed under the Apache 2.0
+License. Refer to `LICENSE` for details.

@@ -1,3 +1,9 @@
+---
+title: Regex toolkit
+---
+
+<!-- This file is auto-generated from toolkits/regex/docs/README.md. -->
+
 # Regex toolkit
 
 This bundle exposes the regex playground runtime for Toolbox operators. It

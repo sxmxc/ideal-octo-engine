@@ -1,3 +1,9 @@
+---
+title: Sample diagnostics toolkit
+---
+
+<!-- This file is auto-generated from toolkits/sample-toolkit/docs/README.md. -->
+
 # Sample diagnostics toolkit
 
 This sample showcases the required directory layout, manifest metadata, and

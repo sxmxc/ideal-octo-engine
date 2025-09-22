@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = REPO_ROOT / "catalog" / "toolkits.json"
-DOCS_ROOT = REPO_ROOT / "docs"
+DOCS_TOOLKIT_ROOT = REPO_ROOT / "docs" / "toolkits"
+SLUG_PATTERN = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 
 
 def load_catalog() -> dict:
@@ -18,6 +20,9 @@ def load_catalog() -> dict:
 
 def validate_entry(slug: str, entry: dict, *, strict: bool) -> list[str]:
     issues: list[str] = []
+    if not SLUG_PATTERN.match(slug):
+        issues.append(f"Invalid slug '{slug}': expected lowercase letters, numbers, hyphens, or underscores")
+
     toolkit_dir = REPO_ROOT / "toolkits" / slug
     if not toolkit_dir.exists():
         issues.append(f"Toolkit directory missing: toolkits/{slug}")
@@ -47,6 +52,12 @@ def validate_entry(slug: str, entry: dict, *, strict: bool) -> list[str]:
     else:
         if not isinstance(entry.get("docs_url"), str) or not entry["docs_url"].strip():
             issues.append(f"Catalog entry for {slug} has an empty docs_url")
+        else:
+            docs_url = entry["docs_url"].strip()
+            if not docs_url.startswith(f"toolkits/{slug}/"):
+                issues.append(
+                    f"Catalog entry for {slug} should expose docs_url under toolkits/{slug}/"
+                )
         categories = entry.get("categories", [])
         if not isinstance(categories, list) or not all(isinstance(item, str) and item.strip() for item in categories):
             issues.append(
@@ -59,28 +70,24 @@ def validate_entry(slug: str, entry: dict, *, strict: bool) -> list[str]:
             issues.append(
                 f"Catalog entry for {slug} should expose bundle_url under toolkits/{slug}/"
             )
+        elif not bundle_url.endswith(".zip"):
+            issues.append(f"Catalog entry for {slug} has bundle_url that must end with .zip")
 
-    doc_page = DOCS_ROOT / slug / "index.md"
+    doc_page = DOCS_TOOLKIT_ROOT / slug / "index.md"
     if not doc_page.exists():
-        issues.append(f"Documentation page missing: docs/{slug}/index.md")
+        issues.append(f"Documentation page missing: docs/toolkits/{slug}/index.md")
 
-    bundle_placeholder = DOCS_ROOT / "toolkits" / slug / "index.html"
-    if not bundle_placeholder.exists():
-        issues.append(
-            f"Bundle placeholder missing: docs/toolkits/{slug}/index.html"
-        )
-
-    bundle_redirect = DOCS_ROOT / "toolkits" / slug / "bundle" / "index.html"
-    if not bundle_redirect.exists():
-        issues.append(
-            f"Bundle redirect missing: docs/toolkits/{slug}/bundle/index.html"
-        )
-
-    bundle_zip = DOCS_ROOT / "toolkits" / slug / "bundle.zip"
-    if not bundle_zip.exists():
-        issues.append(
-            f"Generated bundle missing: docs/toolkits/{slug}/bundle.zip"
-        )
+    toolkit_docs_dir = toolkit_dir / "docs"
+    required_doc_files = [
+        toolkit_docs_dir / "README.md",
+        toolkit_docs_dir / "RELEASE_NOTES.md",
+        toolkit_docs_dir / "CHANGELOG.md",
+        toolkit_docs_dir / "TESTING.md",
+    ]
+    for path in required_doc_files:
+        if not path.exists():
+            relative = path.relative_to(REPO_ROOT)
+            issues.append(f"Toolkit documentation missing: {relative.as_posix()}")
     return issues
 
 

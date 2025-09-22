@@ -1,5 +1,24 @@
 # Agent Guidelines
 
+**Source of Truth**  
+- Master agent prompt: `ai/ops/codex.md`  
+- Architecture reference: `docs/toolbox-architecture.md` (pair with `docs/runtime-architecture.md`)  
+- Schema reference: `docs/toolbox-schema.md`  
+- Task list: `docs/TODO.yaml`  
+- Machine state: `ai/state/progress.json`  
+- Journal: `ai/state/journal.md`
+
+**Agents**
+- **codex (work orchestrator):** Reads context, uses context7 mcp, selects next task from `docs/TODO.yml`, updates state + journal each session.
+
+**Run Loop (every session)**
+1. Read: `docs/architecture.md`, `docs/architecture.md`, `docs/assets/README`,`docs/toolkits/sample-toolkit/index.md`,`docs/bundler.md`, `ai/context/context.md`, `docs/TODO.yml`, `ai/state/progress.json`, `ai/state/journal.md`.  
+2. Pick highest-priority task with no unmet deps. If tasks are blank, generate basic structure and populate with discovered tasks.
+3. Plan ≤500-line PR, test-first.  
+4. Implement.
+5. Update `docs/TODO.yml`, `ai/state/progress.json`, `ai/state/journal.md`; open PR.
+6. Provide branch name. Commit message. And the PR details following contribution and pr standards. Provide PR details in copyable MD form.
+
 Welcome! Please follow these conventions whenever you modify files in this repository.
 
 ## Repository-wide expectations
@@ -23,3 +42,5 @@ These checks keep the catalog metadata synchronized and confirm the documentatio
 - Favor sentence case for headings and keep introductory paragraphs short and action-oriented.
 
 Thanks for helping maintain the SRE Toolbox community catalog!
+
+> Canonical content lives in `ai/ops/codex.md`. Update that file only; this page is a directory.

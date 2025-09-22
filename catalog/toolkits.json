@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2025-09-22T08:07:41Z",
+  "generated_at": "2025-09-22T09:15:18Z",
   "toolkits": [
     {
       "slug": "regex",
@@ -15,8 +15,8 @@
         "steven.mcneely@live.com"
       ],
       "source": "toolkits/regex",
-      "docs_url": "regex/",
-      "bundle_url": "toolkits/regex/bundle",
+      "docs_url": "toolkits/regex/",
+      "bundle_url": "toolkits/regex/bundle.zip",
       "categories": [
         "Diagnostics"
       ]
@@ -35,8 +35,8 @@
         "toolbox-maintainers@example.com"
       ],
       "source": "toolkits/sample-toolkit",
-      "docs_url": "sample-toolkit/",
-      "bundle_url": "toolkits/sample-toolkit/bundle",
+      "docs_url": "toolkits/sample-toolkit/",
+      "bundle_url": "toolkits/sample-toolkit/bundle.zip",
       "categories": [
         "Diagnostics",
         "Examples"

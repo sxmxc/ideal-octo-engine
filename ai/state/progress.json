@@ -1,16 +1,17 @@
 {
   "version": 1,
-  "last_updated": "2025-09-22T08:07:13Z",
-  "session_counter": 1,
-  "active_task": "repo-overhaul",
-  "last_task_id": "repo-overhaul",
+  "last_updated": "2025-09-22T09:32:53Z",
+  "session_counter": 2,
+  "active_task": "mkdocs-dependency-spec",
+  "last_task_id": "mkdocs-dependency-spec",
   "recent_updates": [
-    "Standardised toolkit doc generation and bundle publishing pipeline.",
-    "Refreshed sample and regex toolkit metadata and docs."
+    "Ran scripts/validate-repo.sh successfully; mkdocs build blocked by missing MkDocs dependency.",
+    "Captured documentation-site backlog items to pin MkDocs requirements and add CI coverage."
   ],
   "candidate_next_tasks": [
-    "Expand CI coverage for toolkit tests",
+    "Capture MkDocs dependencies in requirements and contributor docs",
+    "Add CI job to run mkdocs build --strict",
     "Document bundle service deployment pattern"
   ],
-  "notes": "Overhauled automation scripts, toolkit layout, and documentation for catalog and bundle flow."
+  "notes": "Validation scripts run cleanly but the MkDocs site build needs dependency management. Prioritising documentation-site tasks next."
 }
