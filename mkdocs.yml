@@ -20,7 +20,9 @@ nav:
 
 plugins:
   - search
-  - macros
+  - macros:
+      modules:
+        - macros
 
 markdown_extensions:
   - admonition
