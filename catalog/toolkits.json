@@ -11,6 +11,7 @@
       "maintainers": ["toolbox-maintainers@example.com"],
       "source": "toolkits/sample-toolkit",
       "docs_url": "sample-toolkit/",
+      "bundle_url": "toolkits/sample-toolkit/bundle/",
       "categories": ["Diagnostics", "Examples"]
     }
   ]

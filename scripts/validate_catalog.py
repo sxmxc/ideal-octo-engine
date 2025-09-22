@@ -31,7 +31,15 @@ def validate_entry(slug: str, entry: dict, *, strict: bool) -> list[str]:
         else:
             if manifest_data.get("slug") != slug:
                 issues.append(f"Manifest slug mismatch for {slug}")
-    required_fields = {"name", "version", "description", "tags", "docs_url", "categories"}
+    required_fields = {
+        "name",
+        "version",
+        "description",
+        "tags",
+        "docs_url",
+        "categories",
+        "bundle_url",
+    }
     missing = required_fields - entry.keys()
     if missing:
         issues.append(f"Catalog entry for {slug} missing keys: {sorted(missing)}")
@@ -43,10 +51,26 @@ def validate_entry(slug: str, entry: dict, *, strict: bool) -> list[str]:
             issues.append(
                 f"Catalog entry for {slug} must define categories as a list of non-empty strings"
             )
+        bundle_url = entry.get("bundle_url", "")
+        if not isinstance(bundle_url, str) or not bundle_url.strip():
+            issues.append(f"Catalog entry for {slug} has an empty bundle_url")
+        elif not bundle_url.startswith(f"toolkits/{slug}/"):
+            issues.append(
+                f"Catalog entry for {slug} should expose bundle_url under toolkits/{slug}/"
+            )
 
     doc_page = REPO_ROOT / "docs" / slug / "index.md"
     if not doc_page.exists():
         issues.append(f"Documentation page missing: docs/{slug}/index.md")
+
+    bundle_asset = REPO_ROOT / "docs" / "toolkits" / slug / "bundle.zip"
+    if not bundle_asset.exists():
+        issues.append(f"Bundle archive missing: docs/toolkits/{slug}/bundle.zip")
+    redirect_asset = REPO_ROOT / "docs" / "toolkits" / slug / "bundle" / "index.html"
+    if not redirect_asset.exists():
+        issues.append(
+            f"Bundle redirect missing: docs/toolkits/{slug}/bundle/index.html"
+        )
     return issues
 
 
