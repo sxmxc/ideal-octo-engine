@@ -8,6 +8,7 @@ Welcome to the public landing page for the SRE Toolbox community repository. Thi
 
 ## Explore the catalog
 
+- [Browse all community toolkits](catalog/browse.md)
 - [Sample Diagnostics Toolkit](sample-toolkit/index.md)
 - [Download the machine-readable catalog]({{ raw_catalog_url }})
 - [Browse the repository on GitHub]({{ repo_url }})

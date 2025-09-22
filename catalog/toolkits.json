@@ -10,7 +10,8 @@
       "tags": ["sample", "diagnostics", "reference"],
       "maintainers": ["toolbox-maintainers@example.com"],
       "source": "toolkits/sample-toolkit",
-      "docs_url": "docs/sample-toolkit/index.html"
+      "docs_url": "sample-toolkit/",
+      "categories": ["Diagnostics", "Examples"]
     }
   ]
 }

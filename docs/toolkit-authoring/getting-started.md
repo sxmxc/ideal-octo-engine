@@ -14,7 +14,7 @@ This guide helps you bootstrap a new toolkit for the SRE Toolbox community repos
 2. Copy `toolkits/sample-toolkit/` as a starting point (`cp -R sample-toolkit <your-slug>`).
 3. Update `toolkit.json` with your toolkit slug, name, version, and entry points.
 4. Implement backend, worker, and frontend modules as needed.
-5. Document configuration, runbooks, and limitations under `toolkits/<slug>/docs/`.
+5. Document configuration, runbooks, and limitations under `toolkits/<slug>/docs/`, and draft the public overview page at `docs/<slug>/index.md` so users can browse your toolkit without cloning the repository.
 6. Run `scripts/validate-toolkit.sh <slug>` and address any findings.
 7. Run integration tests within a Toolbox environment.
 8. Submit a PR with the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.

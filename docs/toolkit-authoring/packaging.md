@@ -5,7 +5,7 @@ Once your toolkit implementation is ready, follow the steps below to bundle it f
 ## 1. Update metadata
 
 - Ensure `toolkits/<slug>/toolkit.json` is complete and versioned.
-- Add or update the corresponding entry in `catalog/toolkits.json` (keep entries sorted alphabetically by slug).
+- Add or update the corresponding entry in `catalog/toolkits.json` (keep entries sorted alphabetically by slug). Include `docs_url` (for example, `"<slug>/"`) and at least one `categories` value so the browse experience can surface your toolkit.
 - Provide changelog context in `docs/changelog.md` when releasing updates.
 
 ## 2. Validate locally
@@ -31,6 +31,7 @@ Attach the resulting zip to your pull request. Reviewers will attempt installati
 ## 4. Document the release
 
 - Update `toolkits/<slug>/README.md` with installation and configuration notes.
+- Publish a documentation landing page under `docs/<slug>/index.md` that summarizes key capabilities, installation steps, and maintenance expectations. The [sample toolkit page](../sample-toolkit/index.md) provides a copy-friendly template.
 - Provide operator-focused documentation under `toolkits/<slug>/docs/` (runbook, troubleshooting, FAQ).
 - Complete the security review questionnaire (`docs/governance/security-review.md`) and attach it to the PR.
 
