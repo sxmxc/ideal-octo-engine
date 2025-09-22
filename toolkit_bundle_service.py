@@ -1,12 +1,16 @@
 """WSGI application serving toolkit bundles on demand."""
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Callable, Iterable
 
 from scripts.build_toolkit_bundle import build_bundle_bytes
 
 StartResponse = Callable[[str, list[tuple[str, str]]], None]
 Environ = dict[str, str]
+
+REPO_ROOT = Path(__file__).resolve().parent
+CATALOG_MANIFEST_PATH = REPO_ROOT / "catalog" / "toolkits.json"
 
 
 def _parse_slug(path: str) -> str | None:
@@ -31,6 +35,23 @@ def _not_found(start_response: StartResponse) -> Iterable[bytes]:
     return [body]
 
 
+def _serve_catalog_manifest(method: str, start_response: StartResponse) -> Iterable[bytes]:
+    try:
+        payload = CATALOG_MANIFEST_PATH.read_bytes()
+    except FileNotFoundError:
+        return _not_found(start_response)
+
+    headers = [
+        ("Content-Type", "application/json; charset=utf-8"),
+        ("Cache-Control", "no-store"),
+        ("Content-Length", str(len(payload))),
+    ]
+    start_response("200 OK", headers)
+    if method == "HEAD":
+        return [b""]
+    return [payload]
+
+
 def _method_not_allowed(start_response: StartResponse) -> Iterable[bytes]:
     body = b"Method not allowed"
     start_response(
@@ -52,6 +73,9 @@ def application(environ: Environ, start_response: StartResponse) -> Iterable[byt
 
     if method not in {"GET", "HEAD"}:
         return _method_not_allowed(start_response)
+
+    if path == "/catalog/toolkits.json":
+        return _serve_catalog_manifest(method, start_response)
 
     slug = _parse_slug(path)
     if not slug:

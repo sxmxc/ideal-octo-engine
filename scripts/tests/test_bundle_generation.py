@@ -41,6 +41,21 @@ class BundleServiceTests(unittest.TestCase):
         headers = captured.get("headers", {})
         return status_line, headers, body
 
+    def test_catalog_manifest_served_from_disk(self) -> None:
+        status, headers, body = self._invoke("/catalog/toolkits.json")
+        self.assertTrue(status.startswith("200"))
+        self.assertEqual(headers.get("Content-Type"), "application/json; charset=utf-8")
+
+        repo_root = Path(__file__).resolve().parents[2]
+        manifest_bytes = (repo_root / "catalog" / "toolkits.json").read_bytes()
+        self.assertEqual(body, manifest_bytes)
+
+    def test_catalog_manifest_head_request(self) -> None:
+        status, headers, body = self._invoke("/catalog/toolkits.json", method="HEAD")
+        self.assertTrue(status.startswith("200"))
+        self.assertEqual(body, b"")
+        self.assertEqual(headers.get("Content-Type"), "application/json; charset=utf-8")
+
     def test_download_returns_zip_archive(self) -> None:
         status, headers, body = self._invoke("/toolkits/sample-toolkit/bundle")
         self.assertTrue(status.startswith("200"))
