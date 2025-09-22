@@ -47,5 +47,5 @@ Follow these steps when you join the SRE Toolbox community catalog project.
 ## Communication channels
 
 - Use GitHub issues for questions and feature requests.
-- Document decisions in `docs/backlog.md` so future sessions understand current
+- Document decisions in `docs/TODO.yml` so future sessions understand current
   priorities.

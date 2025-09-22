@@ -42,5 +42,5 @@ mkdocs build --strict --clean --site-dir site
       `toolkit_bundle_service.py` instance.
 - [ ] Evidence from [testing](testing.md) attached to the pull request.
 
-Refer to [backlog](backlog.md) for outstanding tasks and future automation
-ideas.
+Refer to the [task backlog](TODO.yml) for outstanding tasks and future
+automation ideas.

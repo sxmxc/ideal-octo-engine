@@ -48,6 +48,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full submission workflow.
 ## Support
 
 - Code of conduct: [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)
-- Backlog and open questions: [`docs/backlog.md`](docs/backlog.md)
+- Backlog and open questions: [`docs/TODO.yml`](docs/TODO.yml)
 
 For help, open a discussion or issue using the templates in `.github/`.
