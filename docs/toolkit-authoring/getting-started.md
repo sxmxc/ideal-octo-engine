@@ -8,6 +8,57 @@ This guide helps you bootstrap a new toolkit for the SRE Toolbox community repos
 - Access to a running Toolbox environment for manual validation.
 - Familiarity with the platform architecture (`docs/runtime-architecture.md` in the main Toolbox repository).
 
+## Clone only the directories you need
+
+The community catalog grows quickly, so you do not need to populate every toolkit when you first clone the repository. Git's sparse checkout mode keeps your working tree lean and lets you opt in to specific toolkits on demand.
+
+```bash
+git clone --filter=blob:none --sparse <repo-url>
+cd ideal-octo-engine
+git sparse-checkout init --cone
+git sparse-checkout set docs catalog scripts
+```
+
+When you are ready to work on a toolkit, materialize it with:
+
+```bash
+git sparse-checkout add toolkits/<slug>
+```
+
+Repeat the `add` command for any additional toolkits you need. To remove paths you no longer want locally, re-run `git sparse-checkout set` with the directories you wish to keep.
+
+For a one-command setup, run `scripts/setup-sparse-checkout.sh`. It initializes sparse checkout (if necessary), keeps the default `docs`, `catalog`, and `scripts` directories, and accepts `--toolkit <slug>` for each toolkit you want to include:
+
+```bash
+scripts/setup-sparse-checkout.sh --toolkit sample-toolkit
+```
+
+Use `--include <path>` to keep additional files or directories, or `--no-defaults` if you prefer to specify every path yourself. Run `scripts/setup-sparse-checkout.sh --help` to see all options.
+
+### Add a toolkit that already exists elsewhere
+
+If you've already built a toolkit in another repository and just need to stage it here, you can keep the checkout minimal and create a fresh directory for your slug without downloading every existing community toolkit.
+
+1. Clone the repository with sparse checkout limited to docs, catalog metadata, and helper scripts:
+
+   ```bash
+   git clone --filter=blob:none --sparse <repo-url>
+   cd ideal-octo-engine
+   git sparse-checkout init --cone
+   git sparse-checkout set docs catalog scripts
+   ```
+
+2. Create the directory that will hold your toolkit and copy or move your existing files into it:
+
+   ```bash
+   mkdir -p toolkits/<slug>
+   cp -R /path/to/your/toolkit/* toolkits/<slug>/
+   ```
+
+   The new folder is part of your working tree even though other toolkits remain excluded. When you run `git status`, your toolkit files appear as untracked changes ready for commit.
+
+To automate the same flow, run `scripts/setup-sparse-checkout.sh --new-toolkit <slug>`. The script prepares sparse checkout with the default directories and ensures `toolkits/<slug>/` exists so you can immediately populate it with your implementation.
+
 ## Workflow overview
 
 1. Clone this repository and create a new branch (`toolkit/<slug>-bootstrap`).
