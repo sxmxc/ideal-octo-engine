@@ -22,7 +22,7 @@ plugins:
   - search
   - macros:
       modules:
-        - macros
+        - catalog_macros
 
 markdown_extensions:
   - admonition

@@ -1,11 +1,11 @@
 """Runtime helpers for the MkDocs macros plugin.
 
 The deploy workflow invokes ``mkdocs build`` with the `mkdocs-macros` plugin
-enabled.  The plugin imports this module and looks for a ``define_env``
-function.  If the function is missing, the build fails with the same error that
-triggered the current task.  Keeping this implementation small and dependency
-free helps ensure the documentation site can be generated inside the CI
-environment without additional bootstrap steps.
+enabled.  The plugin imports :mod:`catalog_macros` and looks for a
+``define_env`` function.  If the function is missing, the build fails with the
+same error that triggered the current task.  Keeping this implementation small
+and dependency free helps ensure the documentation site can be generated inside
+the CI environment without additional bootstrap steps.
 """
 from __future__ import annotations
 
