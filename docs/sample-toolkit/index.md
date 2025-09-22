@@ -22,7 +22,7 @@ The Sample Diagnostics Toolkit acts as a reference implementation for community 
 3. Upload the generated zip (`dist/sample-toolkit-<date>.zip`) through the Toolbox Admin → Toolkits UI.
 4. Verify the `/toolkits/sample/health` endpoint returns HTTP 200 with status `ok`.
 
-The toolkit manifest is available at [`toolkits/sample-toolkit/toolkit.json`]({{ site.github.repository_url }}/blob/main/toolkits/sample-toolkit/toolkit.json).
+The toolkit manifest is available at [`toolkits/sample-toolkit/toolkit.json`]({{ repo_url }}/blob/main/toolkits/sample-toolkit/toolkit.json).
 
 ## Maintenance
 
