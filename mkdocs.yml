@@ -6,6 +6,9 @@ use_directory_urls: true
 
 nav:
   - Home: index.md
+  - Catalog:
+      - Browse toolkits: catalog/browse.md
+      - Sample Diagnostics Toolkit: sample-toolkit/index.md
   - Documentation:
       - Repository structure: structure.md
       - Changelog: changelog.md
@@ -16,7 +19,6 @@ nav:
           - Contribution process: governance/contribution-process.md
           - Security review: governance/security-review.md
           - Decision log: governance/decision-log.md
-      - Sample toolkit: sample-toolkit/index.md
 
 plugins:
   - search

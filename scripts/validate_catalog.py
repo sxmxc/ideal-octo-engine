@@ -31,10 +31,22 @@ def validate_entry(slug: str, entry: dict, *, strict: bool) -> list[str]:
         else:
             if manifest_data.get("slug") != slug:
                 issues.append(f"Manifest slug mismatch for {slug}")
-    required_fields = {"name", "version", "description", "tags"}
+    required_fields = {"name", "version", "description", "tags", "docs_url", "categories"}
     missing = required_fields - entry.keys()
     if missing:
         issues.append(f"Catalog entry for {slug} missing keys: {sorted(missing)}")
+    else:
+        if not isinstance(entry.get("docs_url"), str) or not entry["docs_url"].strip():
+            issues.append(f"Catalog entry for {slug} has an empty docs_url")
+        categories = entry.get("categories", [])
+        if not isinstance(categories, list) or not all(isinstance(item, str) and item.strip() for item in categories):
+            issues.append(
+                f"Catalog entry for {slug} must define categories as a list of non-empty strings"
+            )
+
+    doc_page = REPO_ROOT / "docs" / slug / "index.md"
+    if not doc_page.exists():
+        issues.append(f"Documentation page missing: docs/{slug}/index.md")
     return issues
 
 

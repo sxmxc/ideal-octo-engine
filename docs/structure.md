@@ -14,6 +14,7 @@
 ## Key files
 
 - `catalog/toolkits.json` – Canonical metadata for all published toolkits.
+- `docs/catalog/` – Interactive catalog browser backed by the metadata file.
 - `docs/toolkit-authoring/` – Guides for building, testing, and shipping toolkits.
 - `docs/governance/` – Contribution workflow, review process, and security expectations.
 - `ai/ops/codex.md` – Maintainer automation prompt used by Codex agents.

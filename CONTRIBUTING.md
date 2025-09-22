@@ -14,7 +14,13 @@ Thanks for your interest in contributing! This guide describes how to propose to
 2. **Fork & branch** – Create a topic branch in your fork (`toolkit/<slug>-<change>`).
 3. **Develop test-first** – Add or update tests and validation scripts before making behavioural changes.
 4. **Validate** – Run `scripts/validate-toolkit.sh` (or the relevant automation) and capture output in your PR description.
-5. **Document** – Update README files, changelogs, or catalog metadata as needed.
+5. **Document** – Update README files, changelogs, and catalog metadata as needed.
+   - Keep `toolkits/<slug>/README.md` current; reviewers treat it as the
+     canonical install guide.
+   - Create a documentation landing page at `docs/<slug>/index.md` (copy
+     `docs/sample-toolkit/index.md` as a template) and add it to `mkdocs.yml`.
+   - Update `catalog/toolkits.json` with `docs_url`, `categories`, and other
+     metadata so the browse experience lists your submission.
 6. **Submit** – Open a PR using the template in `.github/PULL_REQUEST_TEMPLATE.md`.
 7. **Review** – Address reviewer feedback promptly. Maintainers will verify packaging, security expectations, and documentation coverage.
 
@@ -23,7 +29,11 @@ Thanks for your interest in contributing! This guide describes how to propose to
 - [ ] Toolkit directory follows `toolkits/<slug>/` layout with `toolkit.json` and optional runtime modules.
 - [ ] Bundle builds with `scripts/package-toolkit.sh <slug>`.
 - [ ] Toolkit metadata appears in `catalog/toolkits.json` with accurate version and tags.
+- [ ] Catalog entry includes `docs_url` (e.g. `"<slug>/"`) and at least one
+      `categories` value for the browse filters.
 - [ ] Documentation under `toolkits/<slug>/docs/` covers installation, configuration, and known limitations.
+- [ ] Public docs exist at `docs/<slug>/index.md` and are linked from the
+      MkDocs navigation.
 - [ ] Security review questionnaire (`docs/governance/security-review.md`) is attached to the PR.
 
 ## Coding standards

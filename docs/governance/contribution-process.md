@@ -13,10 +13,19 @@ This repository maintains the public catalog of SRE Toolbox toolkits. The proces
 1. **Proposal** – Contributor opens an issue or discussion describing the toolkit, target use cases, and dependencies.
 2. **Implementation** – Contributor develops the toolkit in a fork, following `docs/toolkit-authoring/` guidance and adding documentation.
 3. **Validation** – Contributor runs `scripts/validate-toolkit.sh <slug>` and shares results, along with manual test notes.
-4. **Pull request** – Contributor submits a PR using `.github/PULL_REQUEST_TEMPLATE.md`, attaches the packaged bundle, and includes the security questionnaire.
+4. **Pull request** – Contributor submits a PR using `.github/PULL_REQUEST_TEMPLATE.md`, attaches the packaged bundle, and includes the security questionnaire. The PR must also:
+   - Publish a documentation page at `docs/<slug>/index.md` (copy the sample toolkit page as a starting point) and add it to `mkdocs.yml`.
+   - Update `catalog/toolkits.json` with accurate metadata, including `docs_url` and relevant `categories` for the browse experience.
 5. **Review** – Maintainers perform code review, run validation scripts, and request adjustments as needed. Security reviewer signs off when required.
-6. **Catalog update** – Once approved, maintainers merge the PR, regenerate catalog metadata if necessary, and publish the bundle to GitHub Releases.
+6. **Catalog update** – Once approved, maintainers merge the PR, regenerate catalog metadata if necessary, verify the browse interface lists the toolkit, and publish the bundle to GitHub Releases.
 7. **Announcement** – Maintainers update `docs/changelog.md` and share availability through community channels.
+
+## Documentation expectations
+
+- Treat `toolkits/<slug>/README.md` as the authoritative installation and operations guide. It should mirror what operators see after downloading the bundle.
+- Mirror the README highlights in a public documentation page at `docs/<slug>/index.md`. This page powers the catalog browser and should summarize features, installation steps, and maintenance notes.
+- Reference deeper runbooks or FAQs from `toolkits/<slug>/docs/` within the public page so users can drill into details without leaving the site.
+- Keep `catalog/toolkits.json` in sync with each release. Update `version`, `description`, `docs_url` (typically `"<slug>/"`), `tags`, and `categories` so the browse experience remains accurate.
 
 ## Service-level expectations
 
