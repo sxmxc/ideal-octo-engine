@@ -6,19 +6,19 @@ use_directory_urls: true
 
 nav:
   - Home: index.md
-  - Catalog:
-      - Browse toolkits: catalog/browse.md
-      - Sample Diagnostics Toolkit: sample-toolkit/index.md
-  - Documentation:
-      - Repository structure: structure.md
+  - Operations:
+      - Catalog maintenance: catalog.md
+      - Dynamic bundler: bundler.md
+  - Guidance:
+      - Architecture recap: architecture.md
+      - Toolkit authoring: toolkit-authoring.md
+      - Testing checklist: testing.md
+      - Contributor onboarding: onboarding.md
+      - Task backlog (TODO.yml): TODO.yml
       - Changelog: changelog.md
-      - Toolkit authoring:
-          - Getting started: toolkit-authoring/getting-started.md
-          - Packaging checklist: toolkit-authoring/packaging.md
-      - Governance:
-          - Contribution process: governance/contribution-process.md
-          - Security review: governance/security-review.md
-          - Decision log: governance/decision-log.md
+  - Toolkits:
+      - Regex Toolkit: toolkits/regex/index.md
+      - Sample Diagnostics Toolkit: toolkits/sample-toolkit/index.md
 
 plugins:
   - search

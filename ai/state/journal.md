@@ -4,3 +4,12 @@ Use this file to capture session-level notes. Each entry should record tasks att
 
 ## 2025-09-21 Repository bootstrap
 - Created initial community repository structure, governance docs, and sample toolkit scaffold.
+
+## 2025-09-22 Toolkit automation overhaul
+- Reworked toolkit sync to mirror docs from `toolkits/<slug>/docs/README.md`, publish bundle redirects, and regenerate the catalog manifest.
+- Updated sample and regex toolkits to the unified manifest structure and refreshed published documentation.
+- Cleaned navigation, README guidance, and AI context to reflect the new workflow.
+
+## 2025-09-22 Validation and backlog refresh
+- Ran `scripts/validate-repo.sh` successfully; captured that the MkDocs build step fails locally because MkDocs is not installed.
+- Logged new documentation-site backlog items to pin MkDocs dependencies and add CI coverage for the documentation build.

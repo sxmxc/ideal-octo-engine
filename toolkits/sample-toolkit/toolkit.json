@@ -3,18 +3,24 @@
   "name": "Sample Diagnostics Toolkit",
   "version": "0.1.0",
   "description": "Reference toolkit showing directory structure and runtime entry points.",
-  "category": "observability",
-  "tags": ["sample", "diagnostics", "reference"],
-  "backend_module": "toolkits.sample-toolkit.backend.routes",
-  "backend_router_attr": "router",
-  "worker_module": "toolkits.sample-toolkit.worker.tasks",
-  "worker_register_attr": "register",
-  "frontend_entry": "toolkits/sample-toolkit/frontend/index.tsx",
+  "backend": {
+    "module": "backend.routes",
+    "router_attr": "router"
+  },
+  "worker": {
+    "module": "worker.tasks",
+    "register_attr": "register"
+  },
+  "frontend": {
+    "entry": "frontend/index.tsx"
+  },
   "docs": {
-    "overview": "toolkits/sample-toolkit/docs/overview.md"
+    "overview": "docs/overview.md"
   },
   "catalog": {
     "categories": ["Diagnostics", "Examples"],
-    "maintainers": ["toolbox-maintainers@example.com"]
+    "maintainers": ["toolbox-maintainers@example.com"],
+    "tags": ["sample", "diagnostics", "reference"],
+    "description": "Reference implementation to help authors bootstrap new toolkits."
   }
 }

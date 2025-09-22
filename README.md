@@ -1,28 +1,53 @@
-# SRE Toolbox Community Repository
+# SRE Toolbox community catalog
 
-Welcome to the community-driven catalog of SRE Toolbox toolkits. This repository collects vetted toolkits, documentation, and automation to help operators extend the SRE Toolbox platform quickly and safely.
+This repository publishes community-maintained toolkits for the SRE Toolbox
+runtime. It hosts the public catalog (`catalog/toolkits.json`), the toolkit
+source directories under `toolkits/`, and the documentation that guides
+contributors through authoring, testing, and publishing.
 
-## Repository goals
+## Repository layout
 
-- **Discoverability** – Provide a browsable catalog (`catalog/`) that Toolbox instances can sync or mirror.
-- **Quality** – Document contribution, review, and security expectations so submissions stay trustworthy.
-- **Codex ready** – Ship automation prompts and state files so Codex agents can assist maintainers when requested.
+```
+.
+├── catalog/toolkits.json   # Manifest downloaded by Toolbox instances
+├── docs/                   # Architecture, catalog, authoring, testing guides
+├── scripts/                # Validation helpers and docs/catalog sync script
+├── toolkit_bundle_service.py # WSGI app that serves bundles on demand
+└── toolkits/<slug>/        # Source assets for each community toolkit
+```
 
-## Getting started
+## Dynamic bundler contract
 
-1. Read `docs/structure.md` for a tour of the repository layout.
-2. Review `docs/toolkit-authoring/getting-started.md` and `docs/toolkit-authoring/packaging.md` before proposing a new toolkit.
-3. Follow the contribution checklist in `.github/PULL_REQUEST_TEMPLATE.md` when opening a PR.
-4. Use the scripts in `scripts/` to validate and package toolkits.
+- Bundles are generated on demand at `GET /toolkits/<slug>/bundle.zip`.
+- Archives stream directly from memory and enforce the `TOOLKIT_UPLOAD_MAX_BYTES`
+  limit (50 MiB by default).
+- The bundler also serves `GET /catalog/toolkits.json` so GitHub Pages or any
+  static host can proxy requests without storing ZIP files in the repository.
 
-## Toolkit catalog
+## Contributing
 
-Published toolkits live under `toolkits/`. Each toolkit directory mirrors the installable bundle layout (`toolkit.json`, optional `backend/`, `worker/`, `frontend/`, `docs/`). Catalog metadata is generated from `catalog/toolkits.json` and surfaced through GitHub Pages.
+1. Review the guides in `docs/`—start with
+   [`docs/toolkit-authoring.md`](docs/toolkit-authoring.md) and
+   [`docs/testing.md`](docs/testing.md).
+2. Implement or update your toolkit under `toolkits/<slug>/` and maintain the
+   documentation in `docs/README.md`, `RELEASE_NOTES.md`, `TESTING.md`, and
+   `CHANGELOG.md`.
+3. Run the required validations prior to submitting a pull request:
+   ```bash
+   python scripts/sync_toolkit_assets.py --slug <slug>
+   python scripts/validate_catalog.py --strict --toolkit <slug>
+   scripts/validate-repo.sh
+   mkdocs build --strict --clean --site-dir site
+   ```
+4. Launch the bundler locally (`uvicorn toolkit_bundle_service:application`) and
+   verify your bundle downloads successfully.
+5. Include test evidence and command output in your pull request description.
 
-## Support & Governance
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full submission workflow.
 
-- Governance policies: `docs/governance/`
-- Contribution guidelines: `CONTRIBUTING.md`
-- Code of conduct: `CODE_OF_CONDUCT.md`
+## Support
 
-For questions, open a discussion or file an issue using the templates in `.github/ISSUE_TEMPLATE/`.
+- Code of conduct: [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)
+- Backlog and open questions: [`docs/TODO.yml`](docs/TODO.yml)
+
+For help, open a discussion or issue using the templates in `.github/`.

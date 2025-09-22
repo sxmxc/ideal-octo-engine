@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
-"""Synchronize generated documentation and catalog metadata for toolkits."""
+"""Synchronize toolkit documentation and catalog metadata.
+
+This helper keeps the MkDocs sources under ``docs/toolkits/<slug>/index.md``
+in sync with ``toolkits/<slug>/docs/README.md`` and refreshes
+``catalog/toolkits.json``. Bundle archives are no longer written to disk; the
+WSGI service in ``toolkit_bundle_service.py`` generates them on demand.
+"""
 from __future__ import annotations
 
 import argparse
 import json
 import sys
-import textwrap
 from collections import OrderedDict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,6 +20,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DOCS_ROOT = REPO_ROOT / "docs"
 TOOLKITS_ROOT = REPO_ROOT / "toolkits"
 CATALOG_PATH = REPO_ROOT / "catalog" / "toolkits.json"
+DOCS_TOOLKITS_ROOT = DOCS_ROOT / "toolkits"
 
 
 def _first_heading(markdown: str) -> str | None:
@@ -136,12 +142,19 @@ def _sync_catalog(slug: str) -> None:
         existing_entry.get("categories"),
     )
 
+    existing_docs_url = existing_entry.get("docs_url")
+    if isinstance(existing_docs_url, str) and not existing_docs_url.startswith("toolkits/"):
+        existing_docs_url = None
     docs_url = (
         catalog_overrides.get("docs_url")
-        or existing_entry.get("docs_url")
-        or f"{slug}/"
+        or existing_docs_url
+        or f"toolkits/{slug}/"
     )
-    bundle_url = catalog_overrides.get("bundle_url") or f"toolkits/{slug}/bundle/"
+
+    existing_bundle_url = existing_entry.get("bundle_url")
+    if isinstance(existing_bundle_url, str) and not existing_bundle_url.endswith(".zip"):
+        existing_bundle_url = None
+    bundle_url = catalog_overrides.get("bundle_url") or existing_bundle_url or f"toolkits/{slug}/bundle.zip"
     source = catalog_overrides.get("source") or existing_entry.get("source") or f"toolkits/{slug}"
 
     entry: dict[str, Any] = dict(existing_entry)
@@ -173,31 +186,22 @@ def _sync_catalog(slug: str) -> None:
         _write_json_if_changed(CATALOG_PATH, catalog)
 
 
-def _render_bundle_placeholder(slug: str) -> str:
-    return textwrap.dedent(
-        f"""\
-        <!doctype html>
-        <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <title>Download {slug} bundle</title>
-          </head>
-          <body>
-            <h1>Download {slug} bundle</h1>
-            <p>
-              Bundles are generated on demand when requested from a running
-              Toolbox instance. Access this bundle via
-              <code>/toolkits/{slug}/bundle</code> on your deployment to
-              receive the latest archive.
-            </p>
-            <p>
-              This placeholder page remains in the documentation so historical
-              links stay functional.
-            </p>
-          </body>
-        </html>
-        """
-    )
+def _toolkit_readme(slug: str) -> tuple[Path, str] | None:
+    """Return the canonical README path and contents for *slug*.
+
+    Preference order:
+    1. toolkits/<slug>/docs/README.md
+    2. toolkits/<slug>/README.md (legacy fallback)
+    """
+
+    candidates = [
+        TOOLKITS_ROOT / slug / "docs" / "README.md",
+        TOOLKITS_ROOT / slug / "README.md",
+    ]
+    for path in candidates:
+        if path.exists():
+            return path, path.read_text(encoding="utf-8").strip()
+    return None
 
 
 def sync_toolkit(slug: str) -> None:
@@ -205,9 +209,9 @@ def sync_toolkit(slug: str) -> None:
     if not toolkit_dir.exists():
         raise SystemExit(f"toolkits/{slug} does not exist")
 
-    readme_path = toolkit_dir / "README.md"
-    if readme_path.exists():
-        markdown = readme_path.read_text(encoding="utf-8").strip()
+    readme_data = _toolkit_readme(slug)
+    if readme_data is not None:
+        readme_path, markdown = readme_data
         title = _first_heading(markdown) or slug.replace("-", " ").title()
         relative_readme = readme_path.relative_to(REPO_ROOT)
         header_lines = [
@@ -222,14 +226,9 @@ def sync_toolkit(slug: str) -> None:
         if not document.endswith("\n"):
             document += "\n"
 
-        docs_dir = DOCS_ROOT / slug
+        docs_dir = DOCS_TOOLKITS_ROOT / slug
         docs_dir.mkdir(parents=True, exist_ok=True)
         _write_text_if_changed(docs_dir / "index.md", document)
-
-    bundles_root = DOCS_ROOT / "toolkits" / slug / "bundle"
-    bundles_root.mkdir(parents=True, exist_ok=True)
-    placeholder_path = bundles_root / "index.html"
-    _write_text_if_changed(placeholder_path, _render_bundle_placeholder(slug))
 
     _sync_catalog(slug)
 
@@ -239,7 +238,9 @@ def discover_toolkits() -> list[str]:
 
 
 def main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description="Sync generated docs, bundles, and catalog metadata for toolkits")
+    parser = argparse.ArgumentParser(
+        description="Sync toolkit documentation (docs/toolkits/<slug>) and catalog metadata"
+    )
     parser.add_argument("--slug", help="Only sync a specific toolkit slug")
     args = parser.parse_args(argv)
 

@@ -1,10 +1,17 @@
 {
   "version": 1,
-  "last_updated": null,
-  "session_counter": 0,
-  "active_task": null,
-  "last_task_id": null,
-  "recent_updates": [],
-  "candidate_next_tasks": [],
-  "notes": "Initialised with repository bootstrap."
+  "last_updated": "2025-09-22T09:32:53Z",
+  "session_counter": 2,
+  "active_task": "mkdocs-dependency-spec",
+  "last_task_id": "mkdocs-dependency-spec",
+  "recent_updates": [
+    "Ran scripts/validate-repo.sh successfully; mkdocs build blocked by missing MkDocs dependency.",
+    "Captured documentation-site backlog items to pin MkDocs requirements and add CI coverage."
+  ],
+  "candidate_next_tasks": [
+    "Capture MkDocs dependencies in requirements and contributor docs",
+    "Add CI job to run mkdocs build --strict",
+    "Document bundle service deployment pattern"
+  ],
+  "notes": "Validation scripts run cleanly but the MkDocs site build needs dependency management. Prioritising documentation-site tasks next."
 }
