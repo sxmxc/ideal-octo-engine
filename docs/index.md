@@ -9,8 +9,8 @@ Welcome to the public landing page for the SRE Toolbox community repository. Thi
 ## Explore the catalog
 
 - [Sample Diagnostics Toolkit](sample-toolkit/)
-- [Download the machine-readable catalog](https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/catalog/toolkits.json)
-- [Browse the repository on GitHub]({{ site.github.repository_url }})
+- [Download the machine-readable catalog]({{ raw_catalog_url }})
+- [Browse the repository on GitHub]({{ repo_url }})
 
 ## Documentation for contributors
 
@@ -29,4 +29,4 @@ scripts/validate-repo.sh
 scripts/package-toolkit.sh <slug>
 ```
 
-See the [scripts directory]({{ site.github.repository_url }}/tree/main/scripts) for additional helpers and usage details.
+See the [scripts directory]({{ repo_url }}/tree/main/scripts) for additional helpers and usage details.

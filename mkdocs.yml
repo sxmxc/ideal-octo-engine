@@ -1,0 +1,35 @@
+site_name: SRE Toolbox Community Catalog
+site_description: Community-managed toolkit registry for the Toolbox framework.
+repo_url: https://github.com/sre-toolbox-community/ideal-octo-engine
+site_dir: site
+use_directory_urls: true
+
+nav:
+  - Home: index.md
+  - Documentation:
+      - Repository structure: structure.md
+      - Changelog: changelog.md
+      - Toolkit authoring:
+          - Getting started: toolkit-authoring/getting-started.md
+          - Packaging checklist: toolkit-authoring/packaging.md
+      - Governance:
+          - Contribution process: governance/contribution-process.md
+          - Security review: governance/security-review.md
+          - Decision log: governance/decision-log.md
+      - Sample toolkit: sample-toolkit/index.md
+
+plugins:
+  - search
+  - macros:
+      modules:
+        - macros
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
