@@ -1,9 +1,15 @@
 {
-  "slug": "latency-sleuth",
+  "slug": "latency_sleuth",
   "name": "Latency Sleuth",
   "description": "Model web latency probes, tune SLAs, and visualise performance drift with synthetic checks.",
   "version": "1.0.0",
   "updated_at": "2024-10-01T00:00:00Z",
+  "catalog": {
+    "categories": ["Monitoring"],
+    "maintainers": ["sxmxc"],
+    "tags": ["synthetic", "latency", "sla", "http", "probes"],
+    "description": "Model web latency probes, tune SLAs, and visualise performance drift with synthetic checks."
+  },
   "base_path": "/toolkits/latency-sleuth",
   "backend": {
     "module": "backend.app",

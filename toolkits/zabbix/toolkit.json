@@ -1,7 +1,14 @@
 {
   "slug": "zabbix",
   "name": "Zabbix Toolkit",
+  "version": "0.1.0",
   "description": "Manage Zabbix API endpoints and automation workflows.",
+  "catalog": {
+    "categories": ["Integrations"],
+    "maintainers": ["sxmxc"],
+    "tags": ["zabbix", "automation", "api", "inventory"],
+    "description": "Manage Zabbix API endpoints and automation workflows."
+  },
   "base_path": "/toolkits/zabbix",
   "backend": {
     "module": "backend.app",

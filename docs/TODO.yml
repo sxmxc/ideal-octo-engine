@@ -25,6 +25,12 @@ areas:
         title: Add CI to compare bundle checksums before and after a change.
         status: backlog
         priority: medium
+      - id: catalog-metadata-backfill
+        title: Backfill catalog metadata for newly documented toolkits.
+        status: done
+        priority: high
+        notes:
+          - "2025-09-23: Added version, categories, tags, and maintainer records to API Checker, Connectivity, Latency Sleuth, Toolbox Health, and Zabbix manifests."
       - id: integration-tests-notes
         title: Replaced static bundle assets with the on-demand bundler.
         status: done

@@ -1,7 +1,14 @@
 {
-  "slug": "toolbox-health",
+  "slug": "toolbox_health",
   "name": "Toolbox Health",
+  "version": "0.1.0",
   "description": "Monitor the Toolbox frontend, backend, and worker services.",
+  "catalog": {
+    "categories": ["Monitoring"],
+    "maintainers": ["sxmxc"],
+    "tags": ["toolbox", "health", "status", "telemetry"],
+    "description": "Monitor the Toolbox frontend, backend, and worker services."
+  },
   "base_path": "/toolkits/toolbox-health",
   "backend": {
     "module": "backend.app",
@@ -29,4 +36,3 @@
     }
   ]
 }
-

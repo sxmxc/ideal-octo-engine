@@ -1,7 +1,14 @@
 {
   "slug": "connectivity",
   "name": "Bulk Connectivity Checker",
+  "version": "0.1.0",
   "description": "Run large-scale reachability probes, track failures, and automate remediation.",
+  "catalog": {
+    "categories": ["Networking"],
+    "maintainers": ["sxmxc"],
+    "tags": ["networking", "reachability", "tcp", "automation"],
+    "description": "Run large-scale reachability probes, track failures, and automate remediation."
+  },
   "base_path": "/toolkits/connectivity",
   "backend": {
     "module": "backend.app",
