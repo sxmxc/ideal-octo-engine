@@ -5,6 +5,10 @@ platform. Operators download bundles from the dynamic bundler exposed at
 `/toolkits/<slug>/bundle.zip`, while contributors rely on the documentation and
 automation in this catalog to publish updates safely.
 
+Operators can explore available bundles through the interactive
+[toolkit browser](toolkit-browser.md), which supports search and filtering by
+category and tags before jumping into specific documentation.
+
 ## Quick start for contributors
 
 1. Read [architecture](architecture.md) for a refresher on the Toolbox control
