@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "generated_at": "2025-09-22T09:15:18Z",
+  "toolkits": [
+    {
+      "slug": "regex",
+      "name": "Regex Toolkit",
+      "version": "0.1.0",
+      "description": "A toolkit for testing and debugging regular expressions with real-time feedback.",
+      "tags": [
+        "dashboards",
+        "slo"
+      ],
+      "maintainers": [
+        "steven.mcneely@live.com"
+      ],
+      "source": "toolkits/regex",
+      "docs_url": "toolkits/regex/",
+      "bundle_url": "toolkits/regex/bundle.zip",
+      "categories": [
+        "Diagnostics"
+      ]
+    },
+    {
+      "slug": "sample-toolkit",
+      "name": "Sample Diagnostics Toolkit",
+      "version": "0.1.0",
+      "description": "Reference implementation to help authors bootstrap new toolkits.",
+      "tags": [
+        "sample",
+        "diagnostics",
+        "reference"
+      ],
+      "maintainers": [
+        "toolbox-maintainers@example.com"
+      ],
+      "source": "toolkits/sample-toolkit",
+      "docs_url": "toolkits/sample-toolkit/",
+      "bundle_url": "toolkits/sample-toolkit/bundle.zip",
+      "categories": [
+        "Diagnostics",
+        "Examples"
+      ]
+    }
+  ]
+}
