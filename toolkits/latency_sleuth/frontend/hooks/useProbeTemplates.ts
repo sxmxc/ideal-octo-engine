@@ -22,7 +22,7 @@ export function useProbeTemplates() {
     setError(null)
     try {
       const response = await apiFetch<ProbeTemplate[]>(
-        '/toolkits/latency-sleuth/probe-templates',
+        '/toolkits/latency_sleuth/probe-templates',
       )
       if (!activeRef.current) return
       response.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
@@ -44,7 +44,7 @@ export function useProbeTemplates() {
   const createTemplate = useCallback(
     async (payload: ProbeTemplateCreate) => {
       const created = await apiFetch<ProbeTemplate>(
-        '/toolkits/latency-sleuth/probe-templates',
+        '/toolkits/latency_sleuth/probe-templates',
         { method: 'POST', json: payload },
       )
       if (activeRef.current) {
@@ -58,7 +58,7 @@ export function useProbeTemplates() {
   const updateTemplate = useCallback(
     async (templateId: string, payload: Partial<ProbeTemplateCreate>) => {
       const updated = await apiFetch<ProbeTemplate>(
-        `/toolkits/latency-sleuth/probe-templates/${templateId}`,
+        `/toolkits/latency_sleuth/probe-templates/${templateId}`,
         { method: 'PUT', json: payload },
       )
       if (activeRef.current) {
@@ -70,7 +70,7 @@ export function useProbeTemplates() {
   )
 
   const removeTemplate = useCallback(async (templateId: string) => {
-    await apiFetch(`/toolkits/latency-sleuth/probe-templates/${templateId}`, { method: 'DELETE' })
+    await apiFetch(`/toolkits/latency_sleuth/probe-templates/${templateId}`, { method: 'DELETE' })
     if (activeRef.current) {
       setTemplates((prev) => prev.filter((item) => item.id !== templateId))
     }

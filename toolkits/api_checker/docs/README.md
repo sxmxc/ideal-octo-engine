@@ -2,7 +2,7 @@
 
 API Checker lets operators craft HTTP requests, attach auth headers, and inspect
 responses without leaving Toolbox. The bundle ships FastAPI routes under
-`/toolkits/api-checker`, a Celery-friendly job helper, and a React UI panel for
+`/toolkits/api_checker`, a Celery-friendly job helper, and a React UI panel for
 interactive exploration.
 
 ## Validate before publishing
@@ -25,7 +25,7 @@ interactive exploration.
   payload are included when applicable.
 - Jobs can be enqueued through `toolkit_runtime.enqueue_job` for long-running
   probes; the UI streams progress from the backend utilities in `backend/app.py`.
-- The React panel renders under `/toolkits/api-checker` inside the Toolbox shell
+- The React panel renders under `/toolkits/api_checker` inside the Toolbox shell
   once the bundle is installed.
 
 ## Operator checklist

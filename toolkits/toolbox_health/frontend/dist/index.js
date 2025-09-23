@@ -151,7 +151,7 @@ function OverviewPage() {
       try {
         const query = forceRefresh ? "?force_refresh=true" : "";
         const response = await apiFetch(
-          `/toolkits/toolbox-health/health/summary${query}`,
+          `/toolkits/toolbox_health/health/summary${query}`,
           {
             signal,
             cache: "no-store"

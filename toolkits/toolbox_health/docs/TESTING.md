@@ -11,7 +11,7 @@
 3. Install the archive via the admin UI and open the Toolbox Health dashboard.
 4. Call the summary endpoint with a forced refresh:
    ```bash
-   curl "http://localhost:8000/toolkits/toolbox-health/health/summary?force_refresh=true"
+   curl "http://localhost:8000/toolkits/toolbox_health/health/summary?force_refresh=true"
    ```
    Confirm the response includes component entries with `status` and
    `latency_ms` fields.

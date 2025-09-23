@@ -177,7 +177,7 @@ describe('useProbeTemplates', () => {
 
     const hook = renderHook(() => useProbeTemplates())
 
-    expect(apiFetch).toHaveBeenCalledWith('/toolkits/latency-sleuth/probe-templates', expect.any(Object))
+    expect(apiFetch).toHaveBeenCalledWith('/toolkits/latency_sleuth/probe-templates', expect.any(Object))
 
     await hook.result.current.refresh()
     hook.rerender()
@@ -232,7 +232,7 @@ describe('useProbeTemplates', () => {
     await hook.result.current.removeTemplate('generated')
     hook.rerender()
 
-    const deleteCall = apiFetch.mock.calls.find(([path]) => path === '/toolkits/latency-sleuth/probe-templates/generated')
+    const deleteCall = apiFetch.mock.calls.find(([path]) => path === '/toolkits/latency_sleuth/probe-templates/generated')
     expect(deleteCall).toBeTruthy()
     expect(deleteCall?.[1]?.method).toBe('DELETE')
     expect(hook.result.current.templates).toHaveLength(0)

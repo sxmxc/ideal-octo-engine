@@ -96,7 +96,7 @@ export default function JobLogViewer() {
     if (!currentTemplate) return
     try {
       const response = await apiFetch<ProbeExecutionSummary>(
-        `/toolkits/latency-sleuth/probe-templates/${currentTemplate.id}/actions/preview`,
+        `/toolkits/latency_sleuth/probe-templates/${currentTemplate.id}/actions/preview`,
         { method: 'POST', json: { sample_size: 3 } },
       )
       setPreview(response)
@@ -112,7 +112,7 @@ export default function JobLogViewer() {
     setJobId(null)
     try {
       const response = await apiFetch<{ job: { id: string } }>(
-        `/toolkits/latency-sleuth/probe-templates/${currentTemplate.id}/actions/run`,
+        `/toolkits/latency_sleuth/probe-templates/${currentTemplate.id}/actions/run`,
         { method: 'POST', json: { sample_size: 3 } },
       )
       setJobId(response.job.id)

@@ -39,7 +39,7 @@ export default function LatencyHeatmapView() {
       setError(null)
       try {
         const response = await apiFetch<LatencyHeatmap>(
-          `/toolkits/latency-sleuth/probe-templates/${currentTemplate.id}/heatmap`,
+          `/toolkits/latency_sleuth/probe-templates/${currentTemplate.id}/heatmap`,
           { method: 'GET' },
         )
         if (!cancelled) {

@@ -87,7 +87,7 @@ const RAW_CONTENT_TYPES = [
   'application/octet-stream',
 ]
 
-const HISTORY_STORAGE_KEY = 'toolkits.api-checker.history.v1'
+const HISTORY_STORAGE_KEY = 'toolkits.api_checker.history.v1'
 const MAX_HISTORY_ENTRIES = 25
 
 const layoutStyles: Record<string, CSSProperties> = {
@@ -406,7 +406,7 @@ export default function ApiCheckerApp() {
     setActiveHistoryId(historyId)
     setSending(true)
     try {
-      const result = await apiFetch<ApiResponsePayload>('/toolkits/api-checker/requests', {
+      const result = await apiFetch<ApiResponsePayload>('/toolkits/api_checker/requests', {
         method: 'POST',
         body: JSON.stringify(payload),
       })

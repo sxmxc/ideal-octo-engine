@@ -9,7 +9,7 @@
     "tags": ["http", "api", "requests", "debugging"],
     "description": "Craft HTTP requests, explore APIs, and inspect responses with ease."
   },
-  "base_path": "/toolkits/api-checker",
+  "base_path": "/toolkits/api_checker",
   "backend": {
     "module": "backend.app",
     "router_attr": "router"
@@ -23,7 +23,7 @@
       "title": "API Checker",
       "body": "Quickly compose requests, add auth headers, and validate external APIs.",
       "link_text": "Open",
-      "link_href": "/toolkits/api-checker"
+      "link_href": "/toolkits/api_checker"
     }
   ]
 }
