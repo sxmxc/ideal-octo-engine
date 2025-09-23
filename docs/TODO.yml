@@ -1,5 +1,5 @@
 version: 1
-updated: 2025-09-22
+updated: 2025-09-23
 owners:
   - team: sre-toolbox
   - ai: codex
@@ -43,18 +43,12 @@ areas:
         priority: medium
         notes:
           - "2025-09-21: Each toolkit now ships with release notes and testing evidence."
-  - id: infra-publishing
-    title: Infrastructure & publishing
-    summary: Hosting manifests, bundlers, and documenting incident handling.
-    tasks:
-      - id: publish-terraform
-        title: Publish reference Terraform for hosting the manifest and bundler on the community CDN.
-        status: backlog
+      - id: community-doc-audit
+        title: Audit community toolkits for required documentation set.
+        status: done
         priority: high
-      - id: incident-response
-        title: Document incident response steps for bundle-serving failures.
-        status: backlog
-        priority: medium
+        notes:
+          - "2025-09-23: Added README, BUILDING, TESTING, CHANGELOG, and RELEASE_NOTES to API Checker, Connectivity, Latency Sleuth, Toolbox Health, and Zabbix."
   - id: documentation-site
     title: Documentation build & publishing
     summary: Tracking MkDocs prerequisites and ensuring the site builds cleanly.

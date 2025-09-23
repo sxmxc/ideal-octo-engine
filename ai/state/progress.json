@@ -1,17 +1,18 @@
 {
   "version": 1,
-  "last_updated": "2025-09-22T09:32:53Z",
-  "session_counter": 2,
-  "active_task": "mkdocs-dependency-spec",
-  "last_task_id": "mkdocs-dependency-spec",
+  "last_updated": "2025-09-23T05:01:09.228242Z",
+  "session_counter": 3,
+  "active_task": "community-doc-audit",
+  "last_task_id": "community-doc-audit",
   "recent_updates": [
+    "Audited community toolkits, added missing README/BUILDING/TESTING/CHANGELOG/RELEASE_NOTES files, synced generated docs, and captured validation blockers for templates and MkDocs.",
     "Ran scripts/validate-repo.sh successfully; mkdocs build blocked by missing MkDocs dependency.",
     "Captured documentation-site backlog items to pin MkDocs requirements and add CI coverage."
   ],
   "candidate_next_tasks": [
-    "Capture MkDocs dependencies in requirements and contributor docs",
-    "Add CI job to run mkdocs build --strict",
-    "Document bundle service deployment pattern"
+    "Fill toolkit manifests with catalog metadata for new entries",
+    "Capture MkDocs dependency requirements",
+    "Add CI job for mkdocs build --strict"
   ],
-  "notes": "Validation scripts run cleanly but the MkDocs site build needs dependency management. Prioritising documentation-site tasks next."
+  "notes": "Toolkit documentation gaps closed for API Checker, Connectivity, Latency Sleuth, Toolbox Health, and Zabbix. MkDocs tooling still absent locally; dependency pinning remains a priority."
 }

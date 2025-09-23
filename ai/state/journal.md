@@ -13,3 +13,8 @@ Use this file to capture session-level notes. Each entry should record tasks att
 ## 2025-09-22 Validation and backlog refresh
 - Ran `scripts/validate-repo.sh` successfully; captured that the MkDocs build step fails locally because MkDocs is not installed.
 - Logged new documentation-site backlog items to pin MkDocs dependencies and add CI coverage for the documentation build.
+
+## 2025-09-23 Toolkit documentation audit
+- Added missing README, CHANGELOG, RELEASE_NOTES, TESTING, and BUILDING docs for API Checker, Connectivity, Latency Sleuth, Toolbox Health, and Zabbix toolkits.
+- Ran scripts/sync_toolkit_assets.py per toolkit to regenerate published docs and catalog entries; noted validate-repo requires templates manifest.
+- MkDocs build still blocked by missing mkdocs binary in environment; captured in progress notes for follow-up.
