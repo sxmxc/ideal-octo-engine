@@ -1,0 +1,37 @@
+{
+  "slug": "connectivity",
+  "name": "Bulk Connectivity Checker",
+  "version": "0.1.0",
+  "description": "Run large-scale reachability probes, track failures, and automate remediation.",
+  "catalog": {
+    "categories": ["Networking"],
+    "maintainers": ["sxmxc"],
+    "tags": ["networking", "reachability", "tcp", "automation"],
+    "description": "Run large-scale reachability probes, track failures, and automate remediation."
+  },
+  "base_path": "/toolkits/connectivity",
+  "backend": {
+    "module": "backend.app",
+    "router_attr": "router"
+  },
+  "worker": {
+    "module": "worker.tasks",
+    "register_attr": "register"
+  },
+  "dashboard": {
+    "module": "backend.dashboard",
+    "callable": "build_context"
+  },
+  "frontend": {
+    "entry": "frontend/dist/index.js",
+    "source_entry": "frontend/index.tsx"
+  },
+  "dashboard_cards": [
+    {
+      "title": "Connectivity Checks",
+      "body": "Probe fleets of hosts and ports, review reachability trends, and queue remediation jobs.",
+      "link_text": "Open",
+      "link_href": "/toolkits/connectivity"
+    }
+  ]
+}
