@@ -12,7 +12,7 @@ immediately.
   </div>
 </noscript>
 
-<div id="toolkit-browser" class="toolkit-browser" data-raw-catalog-url="{{ raw_catalog_url }}">
+<div id="toolkit-browser-app" class="toolkit-browser" data-raw-catalog-url="{{ raw_catalog_url }}">
   <div class="toolkit-browser__loading" role="status">Loading catalog…</div>
 </div>
 
@@ -207,7 +207,7 @@ immediately.
 
 <script>
   (function () {
-    const root = document.getElementById("toolkit-browser");
+    const root = document.getElementById("toolkit-browser-app");
     if (!root) {
       return;
     }
