@@ -28,6 +28,7 @@ DOCS_ROOT = REPO_ROOT / "docs"
 TOOLKITS_ROOT = REPO_ROOT / "toolkits"
 CATALOG_PATH = REPO_ROOT / "catalog" / "toolkits.json"
 DOCS_TOOLKITS_ROOT = DOCS_ROOT / "toolkits"
+DOCS_CATALOG_PATH = DOCS_ROOT / "catalog" / "toolkits.json"
 
 
 def _first_heading(markdown: str) -> str | None:
@@ -39,6 +40,7 @@ def _first_heading(markdown: str) -> str | None:
 
 
 def _write_text_if_changed(path: Path, content: str) -> bool:
+    path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists() and path.read_text(encoding="utf-8") == content:
         return False
     path.write_text(content, encoding="utf-8")
@@ -47,6 +49,7 @@ def _write_text_if_changed(path: Path, content: str) -> bool:
 
 def _write_json_if_changed(path: Path, payload: dict[str, Any]) -> bool:
     content = json.dumps(payload, indent=2, ensure_ascii=False)
+    path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists() and path.read_text(encoding="utf-8") == f"{content}\n":
         return False
     path.write_text(f"{content}\n", encoding="utf-8")
@@ -54,6 +57,7 @@ def _write_json_if_changed(path: Path, payload: dict[str, Any]) -> bool:
 
 
 def _write_bytes_if_changed(path: Path, payload: bytes) -> bool:
+    path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists() and path.read_bytes() == payload:
         return False
     path.write_bytes(payload)
@@ -198,6 +202,8 @@ def _sync_catalog(slug: str) -> None:
         catalog["toolkits"] = entries
         catalog["generated_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
         _write_json_if_changed(CATALOG_PATH, catalog)
+
+    _write_json_if_changed(DOCS_CATALOG_PATH, catalog)
 
 
 def _toolkit_readme(slug: str) -> tuple[Path, str] | None:
