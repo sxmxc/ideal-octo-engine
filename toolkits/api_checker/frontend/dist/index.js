@@ -23,7 +23,7 @@ var RAW_CONTENT_TYPES = [
   "application/x-www-form-urlencoded",
   "application/octet-stream"
 ];
-var HISTORY_STORAGE_KEY = "toolkits.api-checker.history.v1";
+var HISTORY_STORAGE_KEY = "toolkits.api_checker.history.v1";
 var MAX_HISTORY_ENTRIES = 25;
 var layoutStyles = {
   wrapper: {
@@ -316,7 +316,7 @@ function ApiCheckerApp() {
     setActiveHistoryId(historyId);
     setSending(true);
     try {
-      const result = await apiFetch("/toolkits/api-checker/requests", {
+      const result = await apiFetch("/toolkits/api_checker/requests", {
         method: "POST",
         body: JSON.stringify(payload)
       });

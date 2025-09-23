@@ -52,7 +52,7 @@ class DummyAsyncClient:
 
 def test_execute_request_success(monkeypatch: pytest.MonkeyPatch) -> None:
     app = FastAPI()
-    app.include_router(router, prefix="/toolkits/api-checker")
+    app.include_router(router, prefix="/toolkits/api_checker")
 
     perf_values = chain([1.0, 1.25], repeat(1.25))
     monkeypatch.setattr(app_module.time, "perf_counter", lambda: next(perf_values))
@@ -79,7 +79,7 @@ def test_execute_request_success(monkeypatch: pytest.MonkeyPatch) -> None:
         "timeout": 15,
     }
 
-    response = client.post("/toolkits/api-checker/requests", json=payload)
+    response = client.post("/toolkits/api_checker/requests", json=payload)
     assert response.status_code == 200
 
     data = response.json()
@@ -99,7 +99,7 @@ def test_execute_request_success(monkeypatch: pytest.MonkeyPatch) -> None:
 
 def test_execute_request_invalid_json_body(monkeypatch: pytest.MonkeyPatch) -> None:
     app = FastAPI()
-    app.include_router(router, prefix="/toolkits/api-checker")
+    app.include_router(router, prefix="/toolkits/api_checker")
 
     dummy_client = DummyAsyncClient({"status_code": 200, "json": {"ok": True}})
     monkeypatch.setattr(app_module, "create_async_client", lambda payload: dummy_client)
@@ -117,7 +117,7 @@ def test_execute_request_invalid_json_body(monkeypatch: pytest.MonkeyPatch) -> N
         "timeout": 10,
     }
 
-    response = client.post("/toolkits/api-checker/requests", json=payload)
+    response = client.post("/toolkits/api_checker/requests", json=payload)
     assert response.status_code == 400
     assert "Invalid JSON body" in response.json()["detail"]
     # The HTTP call should not be attempted when validation fails.
@@ -126,7 +126,7 @@ def test_execute_request_invalid_json_body(monkeypatch: pytest.MonkeyPatch) -> N
 
 def test_execute_request_applies_bearer_token(monkeypatch: pytest.MonkeyPatch) -> None:
     app = FastAPI()
-    app.include_router(router, prefix="/toolkits/api-checker")
+    app.include_router(router, prefix="/toolkits/api_checker")
 
     perf_values = chain([10.0, 10.1], repeat(10.1))
     monkeypatch.setattr(app_module.time, "perf_counter", lambda: next(perf_values))
@@ -160,7 +160,7 @@ def test_execute_request_applies_bearer_token(monkeypatch: pytest.MonkeyPatch) -
         "timeout": 5,
     }
 
-    response = client.post("/toolkits/api-checker/requests", json=payload)
+    response = client.post("/toolkits/api_checker/requests", json=payload)
     assert response.status_code == 200
 
     data = response.json()

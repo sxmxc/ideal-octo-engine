@@ -21,20 +21,20 @@ component status.
 
 ## Runtime expectations
 
-- FastAPI routes under `/toolkits/toolbox-health/health` serve component and
+- FastAPI routes under `/toolkits/toolbox_health/health` serve component and
   summary payloads sourced from `backend/health.py`.
 - Celery registration in `worker/tasks.py` schedules periodic refresh jobs to
   keep cached snapshots warm.
 - Dashboard context defined in `backend/dashboard.py` powers the React widgets
   bundled in `frontend/`.
-- Installation adds a dashboard card linking to `/toolkits/toolbox-health` in
+- Installation adds a dashboard card linking to `/toolkits/toolbox_health` in
   the Toolbox UI.
 
 ## Operator checklist
 
 1. Install the bundle via the admin UI or `/toolkits/install` API.
 2. Confirm the dashboard card renders and displays component status.
-3. Call `/toolkits/toolbox-health/health/summary?force_refresh=true` to validate
+3. Call `/toolkits/toolbox_health/health/summary?force_refresh=true` to validate
   backend refresh logic.
 4. Review Celery worker logs for refresh job execution and ensure metrics align
   with expectations.

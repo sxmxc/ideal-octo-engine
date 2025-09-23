@@ -44,7 +44,7 @@ function useProbeTemplates() {
     setError(null);
     try {
       const response = await apiFetch(
-        "/toolkits/latency-sleuth/probe-templates"
+        "/toolkits/latency_sleuth/probe-templates"
       );
       if (!activeRef.current) return;
       response.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
@@ -64,7 +64,7 @@ function useProbeTemplates() {
   const createTemplate = useCallback(
     async (payload) => {
       const created = await apiFetch(
-        "/toolkits/latency-sleuth/probe-templates",
+        "/toolkits/latency_sleuth/probe-templates",
         { method: "POST", json: payload }
       );
       if (activeRef.current) {
@@ -77,7 +77,7 @@ function useProbeTemplates() {
   const updateTemplate = useCallback(
     async (templateId, payload) => {
       const updated = await apiFetch(
-        `/toolkits/latency-sleuth/probe-templates/${templateId}`,
+        `/toolkits/latency_sleuth/probe-templates/${templateId}`,
         { method: "PUT", json: payload }
       );
       if (activeRef.current) {
@@ -88,7 +88,7 @@ function useProbeTemplates() {
     []
   );
   const removeTemplate = useCallback(async (templateId) => {
-    await apiFetch(`/toolkits/latency-sleuth/probe-templates/${templateId}`, { method: "DELETE" });
+    await apiFetch(`/toolkits/latency_sleuth/probe-templates/${templateId}`, { method: "DELETE" });
     if (activeRef.current) {
       setTemplates((prev) => prev.filter((item) => item.id !== templateId));
     }
@@ -535,7 +535,7 @@ function useJobStream(jobId, pollInterval = 2e3) {
       setLoading(true);
       try {
         const response = await apiFetch(
-          `/toolkits/latency-sleuth/jobs/${currentJobId}`
+          `/toolkits/latency_sleuth/jobs/${currentJobId}`
         );
         if (!activeRef.current) return response;
         setJob(response);
@@ -611,7 +611,7 @@ function useToolkitJobs(templateId, pollInterval = 1e4) {
     setLoading(true);
     try {
       const response = await apiFetch(
-        `/toolkits/latency-sleuth/jobs?template_id=${encodeURIComponent(templateId)}`
+        `/toolkits/latency_sleuth/jobs?template_id=${encodeURIComponent(templateId)}`
       );
       if (!activeRef.current) return response;
       setJobs(response);
@@ -800,7 +800,7 @@ function JobLogViewer() {
     if (!currentTemplate) return;
     try {
       const response = await apiFetch(
-        `/toolkits/latency-sleuth/probe-templates/${currentTemplate.id}/actions/preview`,
+        `/toolkits/latency_sleuth/probe-templates/${currentTemplate.id}/actions/preview`,
         { method: "POST", json: { sample_size: 3 } }
       );
       setPreview(response);
@@ -815,7 +815,7 @@ function JobLogViewer() {
     setJobId(null);
     try {
       const response = await apiFetch(
-        `/toolkits/latency-sleuth/probe-templates/${currentTemplate.id}/actions/run`,
+        `/toolkits/latency_sleuth/probe-templates/${currentTemplate.id}/actions/run`,
         { method: "POST", json: { sample_size: 3 } }
       );
       setJobId(response.job.id);
@@ -916,7 +916,7 @@ function LatencyHeatmapView() {
       setError(null);
       try {
         const response = await apiFetch(
-          `/toolkits/latency-sleuth/probe-templates/${currentTemplate.id}/heatmap`,
+          `/toolkits/latency_sleuth/probe-templates/${currentTemplate.id}/heatmap`,
           { method: "GET" }
         );
         if (!cancelled) {

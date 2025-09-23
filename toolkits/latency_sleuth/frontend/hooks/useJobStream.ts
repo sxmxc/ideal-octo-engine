@@ -24,7 +24,7 @@ export function useJobStream(jobId: string | null, pollInterval = 2000) {
       setLoading(true)
       try {
         const response = await apiFetch<JobRecord>(
-          `/toolkits/latency-sleuth/jobs/${currentJobId}`,
+          `/toolkits/latency_sleuth/jobs/${currentJobId}`,
         )
         if (!activeRef.current) return response
         setJob(response)

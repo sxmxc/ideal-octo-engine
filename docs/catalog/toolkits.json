@@ -1,7 +1,71 @@
 {
   "version": 1,
-  "generated_at": "2025-09-22T09:15:18Z",
+  "generated_at": "2025-09-23T05:31:37Z",
   "toolkits": [
+    {
+      "slug": "api_checker",
+      "name": "API Checker",
+      "version": "0.1.0",
+      "description": "Craft HTTP requests, explore APIs, and inspect responses with ease.",
+      "tags": [
+        "http",
+        "api",
+        "requests",
+        "debugging"
+      ],
+      "maintainers": [
+        "sxmxc"
+      ],
+      "source": "toolkits/api_checker",
+      "docs_url": "toolkits/api_checker/",
+      "bundle_url": "toolkits/api_checker/bundle.zip",
+      "categories": [
+        "Diagnostics"
+      ]
+    },
+    {
+      "slug": "connectivity",
+      "name": "Bulk Connectivity Checker",
+      "version": "0.1.0",
+      "description": "Run large-scale reachability probes, track failures, and automate remediation.",
+      "tags": [
+        "networking",
+        "reachability",
+        "tcp",
+        "automation"
+      ],
+      "maintainers": [
+        "sxmxc"
+      ],
+      "source": "toolkits/connectivity",
+      "docs_url": "toolkits/connectivity/",
+      "bundle_url": "toolkits/connectivity/bundle.zip",
+      "categories": [
+        "Networking"
+      ]
+    },
+    {
+      "slug": "latency_sleuth",
+      "name": "Latency Sleuth",
+      "version": "1.0.0",
+      "description": "Model web latency probes, tune SLAs, and visualise performance drift with synthetic checks.",
+      "tags": [
+        "synthetic",
+        "latency",
+        "sla",
+        "http",
+        "probes"
+      ],
+      "maintainers": [
+        "sxmxc"
+      ],
+      "source": "toolkits/latency_sleuth",
+      "docs_url": "toolkits/latency_sleuth/",
+      "bundle_url": "toolkits/latency_sleuth/bundle.zip",
+      "categories": [
+        "Monitoring"
+      ]
+    },
     {
       "slug": "regex",
       "name": "Regex Toolkit",
@@ -40,6 +104,48 @@
       "categories": [
         "Diagnostics",
         "Examples"
+      ]
+    },
+    {
+      "slug": "toolbox_health",
+      "name": "Toolbox Health",
+      "version": "0.1.0",
+      "description": "Monitor the Toolbox frontend, backend, and worker services.",
+      "tags": [
+        "toolbox",
+        "health",
+        "status",
+        "telemetry"
+      ],
+      "maintainers": [
+        "sxmxc"
+      ],
+      "source": "toolkits/toolbox_health",
+      "docs_url": "toolkits/toolbox_health/",
+      "bundle_url": "toolkits/toolbox_health/bundle.zip",
+      "categories": [
+        "Monitoring"
+      ]
+    },
+    {
+      "slug": "zabbix",
+      "name": "Zabbix Toolkit",
+      "version": "0.1.0",
+      "description": "Manage Zabbix API endpoints and automation workflows.",
+      "tags": [
+        "zabbix",
+        "automation",
+        "api",
+        "inventory"
+      ],
+      "maintainers": [
+        "sxmxc"
+      ],
+      "source": "toolkits/zabbix",
+      "docs_url": "toolkits/zabbix/",
+      "bundle_url": "toolkits/zabbix/bundle.zip",
+      "categories": [
+        "Integrations"
       ]
     }
   ]

@@ -27,7 +27,7 @@ export function useToolkitJobs(templateId: string | null, pollInterval = 10000) 
     setLoading(true)
     try {
       const response = await apiFetch<JobRecord[]>(
-        `/toolkits/latency-sleuth/jobs?template_id=${encodeURIComponent(templateId)}`,
+        `/toolkits/latency_sleuth/jobs?template_id=${encodeURIComponent(templateId)}`,
       )
       if (!activeRef.current) return response
       setJobs(response)

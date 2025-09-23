@@ -13,7 +13,7 @@
    unzip -t /tmp/api-checker.zip
    ```
 4. Upload `/tmp/api-checker.zip` through the Toolbox admin UI.
-5. Issue a sample request via the UI or POST `/toolkits/api-checker/requests`
+5. Issue a sample request via the UI or POST `/toolkits/api_checker/requests`
    with the payload from `backend/app.py` to confirm a `200 OK` response.
 6. Inspect the worker/job logs to ensure long-running requests append progress
    entries when using queued jobs.

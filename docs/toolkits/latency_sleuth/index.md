@@ -33,7 +33,7 @@ scheduled executions, and a React dashboard that highlights trends.
   refresh cached telemetry snapshots.
 - Dashboard context from `backend/dashboard.py` powers the React UI so operators
   can visualise breach streaks and SLA adherence.
-- Bundled assets mount under `/toolkits/latency-sleuth` within the Toolbox App
+- Bundled assets mount under `/toolkits/latency_sleuth` within the Toolbox App
   Shell once the toolkit installs successfully.
 
 ## Operator checklist
