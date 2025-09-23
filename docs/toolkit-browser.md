@@ -23,6 +23,12 @@ immediately.
     gap: 1.5rem;
   }
 
+  .toolkit-browser__summary,
+  .toolkit-browser__results,
+  .toolkit-browser__footnote {
+    min-width: 0;
+  }
+
   .toolkit-browser__loading,
   .toolkit-browser__error {
     padding: 1rem;
@@ -41,15 +47,59 @@ immediately.
   }
 
   .toolkit-browser__filters {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: 1rem;
   }
 
+  @media (min-width: 640px) {
+    .toolkit-browser__filter-options {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+  }
+
   @media (min-width: 960px) {
-    .toolkit-browser__controls {
-      grid-template-columns: minmax(280px, 1fr) minmax(240px, 1fr);
+    .toolkit-browser {
+      display: grid;
+      grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+      gap: 2rem 2.5rem;
       align-items: start;
+      grid-template-areas:
+        "controls summary"
+        "controls results"
+        "controls footnote";
+    }
+
+    .toolkit-browser__controls {
+      grid-area: controls;
+      grid-template-columns: 1fr;
+      position: sticky;
+      top: 1rem;
+      max-height: calc(100vh - 2rem);
+      overflow: auto;
+      padding-right: 0.5rem;
+    }
+
+    .toolkit-browser__filters {
+      grid-template-columns: 1fr;
+    }
+
+    .toolkit-browser__filter-options {
+      max-height: 18rem;
+      overflow: auto;
+      padding-right: 0.35rem;
+      scrollbar-gutter: stable;
+    }
+
+    .toolkit-browser__summary {
+      grid-area: summary;
+    }
+
+    .toolkit-browser__results {
+      grid-area: results;
+    }
+
+    .toolkit-browser__footnote {
+      grid-area: footnote;
     }
   }
 
