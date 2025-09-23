@@ -2,7 +2,11 @@
 
 The bundler exposed by `toolkit_bundle_service.py` replaces legacy packaging
 scripts. It streams ZIP archives on demand without writing temporary files to
-disk.
+disk. For static hosting environments, `scripts/sync_toolkit_assets.py`
+mirrors the generated bundle to `docs/toolkits/<slug>/bundle.zip` during build
+steps so GitHub Pages can serve downloads without invoking the WSGI app. These
+archives are produced on demand and left untracked; `mkdocs build` copies them
+into the published site artifact.
 
 ## Endpoints
 

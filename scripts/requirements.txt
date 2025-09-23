@@ -1,3 +1,4 @@
 # Python requirements for repository automation
 mkdocs>=1.5
 mkdocs-macros-plugin>=1.0
+requests>=2

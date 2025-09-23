@@ -31,8 +31,10 @@ and predictable.
 1. Edit `toolkits/<slug>/toolkit.json` and include a `catalog` block if you need
    to override the public description, categories, or tags.
 2. Run `python scripts/sync_toolkit_assets.py --slug <slug>` to regenerate the
-   MkDocs page at `docs/toolkits/<slug>/index.md` and update
-   `catalog/toolkits.json`.
+   MkDocs page at `docs/toolkits/<slug>/index.md`, update
+   `catalog/toolkits.json`, and refresh the static bundle at
+   `docs/toolkits/<slug>/bundle.zip`. The archive is produced on demand for
+   static hosting and is not checked into Git.
 3. Inspect the JSON diff and ensure `bundle_url` uses the `.zip` suffix.
 4. Validate the schema:
    ```bash
@@ -50,9 +52,11 @@ and predictable.
    ```bash
    uvicorn toolkit_bundle_service:application --port 8002
    ```
-3. Download the catalog and bundle and confirm successful responses:
+3. Download the catalog and bundle and confirm successful responses from both
+   the static site and dynamic bundler:
    ```bash
    curl -I http://localhost:8001/catalog/toolkits.json
+   curl -I http://localhost:8001/toolkits/<slug>/bundle.zip
    curl -I http://localhost:8002/toolkits/<slug>/bundle.zip
    curl http://localhost:8002/toolkits/<slug>/bundle.zip -o /tmp/<slug>.zip
    unzip -t /tmp/<slug>.zip

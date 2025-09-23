@@ -3,8 +3,9 @@
 
 This helper keeps the MkDocs sources under ``docs/toolkits/<slug>/index.md``
 in sync with ``toolkits/<slug>/docs/README.md`` and refreshes
-``catalog/toolkits.json``. Bundle archives are no longer written to disk; the
-WSGI service in ``toolkit_bundle_service.py`` generates them on demand.
+``catalog/toolkits.json``. It also materializes ``bundle.zip`` archives under
+``docs/toolkits/<slug>/`` so static hosts (for example GitHub Pages) can serve
+toolkit downloads without the dynamic bundler.
 """
 from __future__ import annotations
 
@@ -17,6 +18,12 @@ from pathlib import Path
 from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+
+if __package__ is None or __package__ == "":  # pragma: no cover - module side effect
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.build_toolkit_bundle import build_bundle_bytes
+
 DOCS_ROOT = REPO_ROOT / "docs"
 TOOLKITS_ROOT = REPO_ROOT / "toolkits"
 CATALOG_PATH = REPO_ROOT / "catalog" / "toolkits.json"
@@ -43,6 +50,13 @@ def _write_json_if_changed(path: Path, payload: dict[str, Any]) -> bool:
     if path.exists() and path.read_text(encoding="utf-8") == f"{content}\n":
         return False
     path.write_text(f"{content}\n", encoding="utf-8")
+    return True
+
+
+def _write_bytes_if_changed(path: Path, payload: bytes) -> bool:
+    if path.exists() and path.read_bytes() == payload:
+        return False
+    path.write_bytes(payload)
     return True
 
 
@@ -231,6 +245,11 @@ def sync_toolkit(slug: str) -> None:
         _write_text_if_changed(docs_dir / "index.md", document)
 
     _sync_catalog(slug)
+
+    bundle_path = DOCS_TOOLKITS_ROOT / slug / "bundle.zip"
+    bundle_bytes = build_bundle_bytes(slug)
+    bundle_path.parent.mkdir(parents=True, exist_ok=True)
+    _write_bytes_if_changed(bundle_path, bundle_bytes)
 
 
 def discover_toolkits() -> list[str]:
