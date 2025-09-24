@@ -1,0 +1,35 @@
+{
+  "slug": "subnet-cheatsheet",
+  "name": "Subnet Calculator Toolkit",
+  "version": "0.1.0",
+  "description": "Quickly compute IPv4 subnet details and browse a prefix cheat sheet.",
+  "base_path": "/toolkits/subnet-cheatsheet",
+  "backend": {
+    "module": "backend.routes",
+    "router_attr": "router"
+  },
+  "worker": {
+    "module": "worker.tasks",
+    "register_attr": "register"
+  },
+  "frontend": {
+    "entry": "frontend/index.tsx"
+  },
+  "docs": {
+    "overview": "docs/README.md"
+  },
+  "catalog": {
+    "categories": ["Networking", "Diagnostics"],
+    "maintainers": ["toolbox-maintainers@example.com"],
+    "tags": ["subnetting", "calculator", "ipv4"],
+    "description": "IPv4 subnet calculator with ready-to-share prefix reference tables."
+  },
+  "dashboard_cards": [
+    {
+      "title": "Subnet cheat sheet",
+      "body": "Calculate IPv4 ranges and review prefix capacity in one place.",
+      "link_text": "Open",
+      "link_href": "/toolkits/subnet-cheatsheet"
+    }
+  ]
+}
