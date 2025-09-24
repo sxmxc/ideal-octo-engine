@@ -10,7 +10,7 @@ def create_app() -> FastAPI:
     """Return a FastAPI application that mounts the subnet routes."""
 
     application = FastAPI(title="Subnet cheat sheet toolkit")
-    application.include_router(router)
+    application.include_router(router, prefix="/toolkits/subnet-cheatsheet")
     return application
 
 

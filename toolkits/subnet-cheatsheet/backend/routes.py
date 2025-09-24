@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException, Query
 
 from .calculator import generate_prefix_table, parse_network, summarize_subnet
 
-router = APIRouter(prefix="/toolkits/subnet-cheatsheet", tags=["subnet-cheatsheet"])
+router = APIRouter(tags=["subnet-cheatsheet"])
 
 
 @router.get("/summary")
