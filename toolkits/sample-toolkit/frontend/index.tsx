@@ -1,6 +1,8 @@
-import React from "react";
+import { getReactRuntime } from "./runtime";
 
-export const SampleToolkitPanel: React.FC = () => {
+const React = getReactRuntime();
+
+export const SampleToolkitPanel = () => {
   return (
     <section>
       <h1>Sample Diagnostics Toolkit</h1>
