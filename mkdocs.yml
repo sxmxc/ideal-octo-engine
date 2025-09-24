@@ -14,11 +14,9 @@ nav:
       - Toolkit authoring: toolkit-authoring.md
       - Testing checklist: testing.md
       - Contributor onboarding: onboarding.md
-      - Task backlog (TODO.yml): TODO.yml
       - Changelog: changelog.md
   - Toolkits:
       - Browse toolkits: toolkit-browser.md
-      - Regex Toolkit: toolkits/regex/index.md
       - Sample Diagnostics Toolkit: toolkits/sample-toolkit/index.md
 
 plugins:
