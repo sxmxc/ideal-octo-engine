@@ -11,14 +11,14 @@ nav:
       - Dynamic bundler: bundler.md
   - Guidance:
       - Architecture recap: architecture.md
-      - Toolkit authoring: toolkit-authoring.md
       - Testing checklist: testing.md
       - Contributor onboarding: onboarding.md
       - Changelog: changelog.md
   - Toolkits:
       - Browse toolkits: toolkit-browser.md
+      - Toolkit authoring: toolkit-authoring.md
       - Sample Diagnostics Toolkit: toolkits/sample-toolkit/index.md
-
+      
 plugins:
   - search
   - macros:
