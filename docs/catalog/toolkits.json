@@ -88,7 +88,7 @@
     {
       "slug": "sample-toolkit",
       "name": "Sample Diagnostics Toolkit",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Reference implementation to help authors bootstrap new toolkits.",
       "tags": [
         "sample",
@@ -109,7 +109,7 @@
     {
       "slug": "subnet-cheatsheet",
       "name": "Subnet Calculator Toolkit",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "IPv4 subnet calculator with ready-to-share prefix reference tables.",
       "tags": [
         "subnetting",

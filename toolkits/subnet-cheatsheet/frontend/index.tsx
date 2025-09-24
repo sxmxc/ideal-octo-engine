@@ -1,4 +1,9 @@
-import React, { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import type { FormEvent } from "react";
+
+import { apiFetch, getReactRuntime } from "./runtime";
+
+const React = getReactRuntime();
+const { useCallback, useEffect, useMemo, useState } = React;
 
 type SubnetSummary = {
   cidr: string;
@@ -60,7 +65,7 @@ const formatNumber = (value: number) => value.toLocaleString();
 
 const DEFAULT_CIDR = "192.168.1.0/24";
 
-export const SubnetCheatSheetPanel: React.FC = () => {
+export const SubnetCheatSheetPanel = () => {
   const [cidrInput, setCidrInput] = useState(DEFAULT_CIDR);
   const [summary, setSummary] = useState<SubnetSummary | null>(null);
   const [loading, setLoading] = useState(false);
@@ -79,14 +84,9 @@ export const SubnetCheatSheetPanel: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch(
+      const payload = await apiFetch<{ summary: SubnetSummary }>(
         `/toolkits/subnet-cheatsheet/summary?cidr=${encodeURIComponent(cidr)}`,
       );
-      if (!response.ok) {
-        const payload = (await response.json().catch(() => ({}))) as { detail?: string };
-        throw new Error(payload?.detail ?? "Subnet lookup failed");
-      }
-      const payload = (await response.json()) as { summary: SubnetSummary };
       setSummary(payload.summary);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Subnet lookup failed";

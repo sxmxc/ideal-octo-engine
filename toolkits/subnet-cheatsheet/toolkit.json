@@ -1,7 +1,7 @@
 {
   "slug": "subnet-cheatsheet",
   "name": "Subnet Calculator Toolkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Quickly compute IPv4 subnet details and browse a prefix cheat sheet.",
   "base_path": "/toolkits/subnet-cheatsheet",
   "backend": {
@@ -13,7 +13,8 @@
     "register_attr": "register"
   },
   "frontend": {
-    "entry": "frontend/index.tsx"
+    "entry": "frontend/dist/index.js",
+    "source_entry": "frontend/index.tsx"
   },
   "docs": {
     "overview": "docs/README.md"
