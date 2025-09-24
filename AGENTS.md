@@ -40,6 +40,8 @@ These checks keep the catalog metadata synchronized and confirm the documentatio
 - Organize new documentation under `docs/` and include it in the MkDocs navigation (`mkdocs.yml`) when appropriate.
 - Use relative links between documentation pages; avoid hard-coding absolute GitHub URLs unless necessary.
 - Favor sentence case for headings and keep introductory paragraphs short and action-oriented.
+- Keep the MkDocs navigation "Toolkits" section limited to existing shared entries (currently only the sample toolkit).
+  Do **not** add new community toolkits to the navigation menu unless explicitly directed otherwise.
 
 Thanks for helping maintain the SRE Toolbox community catalog!
 
