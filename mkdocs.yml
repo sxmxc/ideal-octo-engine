@@ -16,7 +16,17 @@ nav:
       - Changelog: changelog.md
   - Toolkits:
       - Browse toolkits: toolkit-browser.md
-      - Toolkit authoring: toolkit-authoring.md
+      - Toolkit authoring:
+          - Overview: toolkit-authoring/overview.md
+          - Backend & worker guide: toolkit-authoring/backend-and-worker.md
+          - Frontend integration: toolkit-authoring/frontend.md
+          - Testing & release: toolkit-authoring/testing-and-release.md
+          - Versioning: toolkit-authoring/versioning.md
+          - Author checklist: toolkit-authoring.md
+      - Subnet Calculator toolkit:
+          - Overview: toolkits/subnet-cheatsheet/index.md
+          - Calculator workflows: toolkits/subnet-cheatsheet/calculator.md
+          - Prefix cheat sheet reference: toolkits/subnet-cheatsheet/prefix-reference.md
       - Sample Diagnostics Toolkit: toolkits/sample-toolkit/index.md
       
 plugins:

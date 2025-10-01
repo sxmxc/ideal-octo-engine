@@ -6,3 +6,5 @@
 4. Governance policies under `docs/governance/` drive contribution review, security assessments, and publishing standards.
 5. Codex sessions must update `docs/TODO.yaml`, `ai/state/progress.json`, and `ai/state/journal.md` when tasks change.
 6. Bundles downloaded from `<site>/toolkits/<slug>/bundle` are produced from `toolkits/<slug>/` by the sync script; `scripts/package-toolkit.sh` wraps the same logic for local packaging.
+7. Changes to the documentation site (MkDocs content, navigation, macros) must be reflected in `docs/changelog.md`; toolkit-specific
+   release notes remain inside `toolkits/<slug>/docs/`.

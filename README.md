@@ -26,8 +26,8 @@ contributors through authoring, testing, and publishing.
 
 ## Contributing
 
-1. Review the guides in `docs/`—start with
-   [`docs/toolkit-authoring.md`](docs/toolkit-authoring.md) and
+1. Review the guides in `docs/`—start with the
+   [toolkit authoring overview](docs/toolkit-authoring/overview.md) and
    [`docs/testing.md`](docs/testing.md).
 2. Implement or update your toolkit under `toolkits/<slug>/` and maintain the
    documentation in `docs/README.md`, `RELEASE_NOTES.md`, `TESTING.md`, and
