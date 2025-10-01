@@ -1,4 +1,4 @@
-import type { FormEvent } from "react";
+import type { CSSProperties, FormEvent } from "react";
 
 import { apiFetch, getReactRouterRuntime, getReactRuntime } from "./runtime";
 
@@ -6,6 +6,155 @@ const React = getReactRuntime();
 const Router = getReactRouterRuntime();
 const { useCallback, useEffect, useMemo, useState } = React;
 const { NavLink, Navigate, Route, Routes } = Router;
+
+const containerStyle: CSSProperties = {
+  padding: "1.5rem",
+  display: "grid",
+  gap: "1.5rem",
+  color: "var(--color-text-primary)",
+};
+
+const headerTitleStyle: CSSProperties = {
+  margin: 0,
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
+};
+
+const headerSubtitleStyle: CSSProperties = {
+  margin: "0.35rem 0 0",
+  color: "var(--color-text-secondary)",
+};
+
+const navStyle: CSSProperties = {
+  display: "flex",
+  gap: "0.75rem",
+  flexWrap: "wrap",
+};
+
+const navLinkStyle = (active: boolean): CSSProperties => ({
+  padding: "0.5rem 0.85rem",
+  borderRadius: 8,
+  border: "1px solid var(--color-border)",
+  textDecoration: "none",
+  background: active ? "var(--color-accent)" : "transparent",
+  color: active ? "var(--color-sidebar-item-active-text)" : "var(--color-link)",
+  fontWeight: 600,
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "0.5rem",
+});
+
+const contentStyle: CSSProperties = {
+  display: "grid",
+  gap: "1.5rem",
+};
+
+const sectionStyle: CSSProperties = {
+  display: "grid",
+  gap: "1rem",
+};
+
+const formStyle: CSSProperties = {
+  display: "grid",
+  gap: "1rem",
+  alignItems: "end",
+  gridTemplateColumns: "minmax(0, 1fr) auto",
+};
+
+const labelStyle: CSSProperties = {
+  display: "grid",
+  gap: "0.35rem",
+  fontWeight: 600,
+  color: "var(--color-text-secondary)",
+};
+
+const inputStyle: CSSProperties = {
+  background: "var(--color-surface-muted)",
+  border: "1px solid var(--color-border)",
+  borderRadius: 8,
+  color: "var(--color-text-primary)",
+  padding: "0.65rem 0.75rem",
+  font: "inherit",
+};
+
+const statusRowStyle: CSSProperties = {
+  display: "flex",
+  gap: "0.75rem",
+  alignItems: "center",
+  flexWrap: "wrap",
+};
+
+const errorStyle: CSSProperties = {
+  color: "var(--color-status-error)",
+  margin: 0,
+};
+
+const summaryStyle: CSSProperties = {
+  display: "grid",
+  gap: "0.75rem",
+  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+  margin: 0,
+};
+
+const summaryCardStyle: CSSProperties = {
+  background: "var(--color-surface-muted)",
+  padding: "0.75rem",
+  borderRadius: 10,
+  display: "grid",
+  gap: "0.35rem",
+};
+
+const summaryTermStyle: CSSProperties = {
+  margin: 0,
+  color: "var(--color-text-secondary)",
+  fontSize: "0.85rem",
+  textTransform: "uppercase",
+  letterSpacing: "0.05em",
+};
+
+const summaryValueStyle: CSSProperties = {
+  margin: 0,
+  fontWeight: 600,
+};
+
+const tableSectionStyle: CSSProperties = {
+  display: "grid",
+  gap: "0.75rem",
+};
+
+const tableIntroStyle: CSSProperties = {
+  margin: "0.25rem 0 0",
+  color: "var(--color-text-secondary)",
+};
+
+const tableWrapperStyle: CSSProperties = {
+  overflowX: "auto",
+};
+
+const tableStyle: CSSProperties = {
+  width: "100%",
+  borderCollapse: "collapse",
+  minWidth: 480,
+};
+
+const tableHeaderCellStyle: CSSProperties = {
+  textAlign: "left",
+  padding: "0.65rem",
+  fontSize: "0.85rem",
+  color: "var(--color-text-secondary)",
+  borderBottom: "1px solid var(--color-border)",
+};
+
+const tableCellStyle: CSSProperties = {
+  padding: "0.65rem",
+  borderBottom: "1px solid var(--color-border)",
+};
+
+const codeStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: "0.85rem",
+};
 
 type SubnetSummary = {
   cidr: string;
@@ -67,11 +216,6 @@ const formatNumber = (value: number) => value.toLocaleString();
 
 const DEFAULT_CIDR = "192.168.1.0/24";
 
-const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
-  isActive
-    ? "subnet-cheat-sheet__nav-link subnet-cheat-sheet__nav-link--active"
-    : "subnet-cheat-sheet__nav-link";
-
 const CalculatorPage = () => {
   const [cidrInput, setCidrInput] = useState(DEFAULT_CIDR);
   const [summary, setSummary] = useState<SubnetSummary | null>(null);
@@ -114,10 +258,30 @@ const CalculatorPage = () => {
     [cidrInput, fetchSummary],
   );
 
+  const summaryItems = summary
+    ? (
+        [
+          { label: "Network", value: summary.network_address },
+          { label: "Broadcast", value: summary.broadcast_address },
+          { label: "First usable", value: summary.first_usable },
+          { label: "Last usable", value: summary.last_usable },
+          { label: "Netmask", value: summary.netmask },
+          { label: "Wildcard mask", value: summary.wildcard_mask },
+          { label: "Usable hosts", value: formatNumber(summary.usable_hosts) },
+          { label: "Total addresses", value: formatNumber(summary.total_addresses) },
+        ] satisfies Array<{ label: string; value: string }>
+      )
+    : null;
+
   return (
-    <div className="subnet-cheat-sheet__calculator">
-      <form onSubmit={handleSubmit} className="subnet-cheat-sheet__form">
-        <label htmlFor="subnet-cidr">
+    <section className="tk-card" style={sectionStyle}>
+      <header>
+        <h3 style={{ margin: 0 }}>IPv4 calculator</h3>
+        <p style={tableIntroStyle}>Compute broadcast, mask, and usable range details for any CIDR.</p>
+      </header>
+
+      <form onSubmit={handleSubmit} style={formStyle}>
+        <label htmlFor="subnet-cidr" style={labelStyle}>
           CIDR network
           <input
             id="subnet-cidr"
@@ -125,56 +289,34 @@ const CalculatorPage = () => {
             value={cidrInput}
             onChange={(event) => setCidrInput(event.target.value)}
             placeholder="10.10.42.0/24"
+            style={inputStyle}
           />
         </label>
-        <button type="submit" disabled={loading}>
+        <button type="submit" className="tk-button tk-button--primary" disabled={loading}>
           {loading ? "Calculating…" : "Calculate"}
         </button>
       </form>
 
-      {error ? (
-        <p role="alert" className="subnet-cheat-sheet__error">
-          {error}
-        </p>
-      ) : null}
+      <div style={statusRowStyle}>
+        {loading ? <span style={{ color: "var(--color-text-secondary)" }}>Fetching subnet data…</span> : null}
+        {error ? (
+          <p role="alert" style={errorStyle}>
+            {error}
+          </p>
+        ) : null}
+      </div>
 
-      {summary ? (
-        <dl className="subnet-cheat-sheet__summary">
-          <div>
-            <dt>Network</dt>
-            <dd>{summary.network_address}</dd>
-          </div>
-          <div>
-            <dt>Broadcast</dt>
-            <dd>{summary.broadcast_address}</dd>
-          </div>
-          <div>
-            <dt>First usable</dt>
-            <dd>{summary.first_usable}</dd>
-          </div>
-          <div>
-            <dt>Last usable</dt>
-            <dd>{summary.last_usable}</dd>
-          </div>
-          <div>
-            <dt>Netmask</dt>
-            <dd>{summary.netmask}</dd>
-          </div>
-          <div>
-            <dt>Wildcard mask</dt>
-            <dd>{summary.wildcard_mask}</dd>
-          </div>
-          <div>
-            <dt>Usable hosts</dt>
-            <dd>{formatNumber(summary.usable_hosts)}</dd>
-          </div>
-          <div>
-            <dt>Total addresses</dt>
-            <dd>{formatNumber(summary.total_addresses)}</dd>
-          </div>
+      {summaryItems ? (
+        <dl style={summaryStyle}>
+          {summaryItems.map((item) => (
+            <div key={item.label} style={summaryCardStyle}>
+              <dt style={summaryTermStyle}>{item.label}</dt>
+              <dd style={summaryValueStyle}>{item.value}</dd>
+            </div>
+          ))}
         </dl>
       ) : null}
-    </div>
+    </section>
   );
 };
 
@@ -182,63 +324,91 @@ const PrefixCheatSheetPage = () => {
   const prefixRows = useMemo(() => DEFAULT_PREFIX_ROWS, []);
 
   return (
-    <section className="subnet-cheat-sheet__table">
-      <h2>Prefix cheat sheet</h2>
-      <p>
-        Use this table to compare prefix capacities, netmasks, and wildcard
-        masks when planning address allocations.
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">CIDR</th>
-            <th scope="col">Netmask</th>
-            <th scope="col">Wildcard</th>
-            <th scope="col">Usable hosts</th>
-            <th scope="col">Total addresses</th>
-            <th scope="col">Binary mask</th>
-          </tr>
-        </thead>
-        <tbody>
-          {prefixRows.map((row) => (
-            <tr key={row.prefix}>
-              <th scope="row">{row.cidr}</th>
-              <td>{row.netmask}</td>
-              <td>{row.wildcardMask}</td>
-              <td>{formatNumber(row.usableHosts)}</td>
-              <td>{formatNumber(row.totalAddresses)}</td>
-              <td>
-                <code>{row.binaryMask}</code>
-              </td>
+    <section className="tk-card" style={tableSectionStyle}>
+      <header>
+        <h3 style={{ margin: 0 }}>Prefix cheat sheet</h3>
+        <p style={tableIntroStyle}>
+          Use this table to compare prefix capacities, netmasks, and wildcard masks when planning address allocations.
+        </p>
+      </header>
+
+      <div style={tableWrapperStyle}>
+        <table style={tableStyle}>
+          <thead>
+            <tr>
+              <th scope="col" style={tableHeaderCellStyle}>
+                CIDR
+              </th>
+              <th scope="col" style={tableHeaderCellStyle}>
+                Netmask
+              </th>
+              <th scope="col" style={tableHeaderCellStyle}>
+                Wildcard
+              </th>
+              <th scope="col" style={tableHeaderCellStyle}>
+                Usable hosts
+              </th>
+              <th scope="col" style={tableHeaderCellStyle}>
+                Total addresses
+              </th>
+              <th scope="col" style={tableHeaderCellStyle}>
+                Binary mask
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {prefixRows.map((row) => (
+              <tr key={row.prefix}>
+                <th scope="row" style={{ ...tableCellStyle, fontWeight: 600 }}>
+                  {row.cidr}
+                </th>
+                <td style={tableCellStyle}>{row.netmask}</td>
+                <td style={tableCellStyle}>{row.wildcardMask}</td>
+                <td style={tableCellStyle}>{formatNumber(row.usableHosts)}</td>
+                <td style={tableCellStyle}>{formatNumber(row.totalAddresses)}</td>
+                <td style={tableCellStyle}>
+                  <code style={codeStyle}>{row.binaryMask}</code>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 };
 
 export const SubnetCheatSheetPanel = () => {
   return (
-    <section className="subnet-cheat-sheet">
+    <section className="tk-card" style={containerStyle}>
       <header>
-        <h1>Subnet toolkit</h1>
-        <p>
-          Switch between the IPv4 calculator and the prefix reference without
-          leaving the Toolbox.
+        <h2 style={headerTitleStyle}>
+          <span className="material-symbols-outlined" aria-hidden>
+            dns
+          </span>
+          Subnet toolkit
+        </h2>
+        <p style={headerSubtitleStyle}>
+          Switch between the IPv4 calculator and the prefix reference without leaving the Toolbox.
         </p>
       </header>
 
-      <nav className="subnet-cheat-sheet__nav" aria-label="Subnet toolkit sections">
-        <NavLink end to="" className={navLinkClassName}>
+      <nav style={navStyle} aria-label="Subnet toolkit sections">
+        <NavLink end to="" style={({ isActive }) => navLinkStyle(isActive)}>
+          <span className="material-symbols-outlined" aria-hidden>
+            calculate
+          </span>
           Calculator
         </NavLink>
-        <NavLink to="cheat-sheet" className={navLinkClassName}>
+        <NavLink to="cheat-sheet" style={({ isActive }) => navLinkStyle(isActive)}>
+          <span className="material-symbols-outlined" aria-hidden>
+            table
+          </span>
           Prefix cheat sheet
         </NavLink>
       </nav>
 
-      <div className="subnet-cheat-sheet__content">
+      <div style={contentStyle}>
         <Routes>
           <Route index element={<CalculatorPage />} />
           <Route path="cheat-sheet" element={<PrefixCheatSheetPage />} />

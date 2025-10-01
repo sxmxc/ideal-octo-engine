@@ -23,3 +23,8 @@ Use this file to capture session-level notes. Each entry should record tasks att
 - Populated catalog metadata blocks (version, categories, tags, maintainers) for recently documented toolkits and normalized slugs to underscore style.
 - Regenerated catalog/toolkits.json via sync script; validate_catalog and validate-repo succeed with python3 alias workaround.
 - mkdocs build --strict still fails locally because mkdocs is not installed; captured as follow-up for dependency pinning.
+
+## 2025-10-01 Subnet toolkit refresh
+- Restyled the Subnet toolkit panel to use shared card patterns, iconography, and inline styles consistent with Latency Sleuth.
+- Added inline calculator/table refinements for better readability and responsive layout, including loading and error affordances.
+- Bumped the toolkit manifest to version 0.3.0 and updated AI state to record the release.
