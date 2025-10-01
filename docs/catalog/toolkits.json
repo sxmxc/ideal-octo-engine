@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2025-09-24T05:22:19Z",
+  "generated_at": "2025-10-01T04:28:43Z",
   "toolkits": [
     {
       "slug": "api_checker",
@@ -109,7 +109,7 @@
     {
       "slug": "subnet-cheatsheet",
       "name": "Subnet Calculator Toolkit",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "description": "IPv4 subnet calculator with ready-to-share prefix reference tables.",
       "tags": [
         "subnetting",

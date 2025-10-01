@@ -27,3 +27,7 @@ export function getReactRuntime() {
 export function apiFetch<T = unknown>(path: string, options?: RequestInit & { json?: unknown }) {
   return getToolkitRuntime().apiFetch(path, options) as Promise<T>
 }
+
+export function getReactRouterRuntime() {
+  return getToolkitRuntime().reactRouterDom
+}

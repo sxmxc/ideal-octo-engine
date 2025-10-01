@@ -1,9 +1,11 @@
 import type { FormEvent } from "react";
 
-import { apiFetch, getReactRuntime } from "./runtime";
+import { apiFetch, getReactRouterRuntime, getReactRuntime } from "./runtime";
 
 const React = getReactRuntime();
+const Router = getReactRouterRuntime();
 const { useCallback, useEffect, useMemo, useState } = React;
+const { NavLink, Navigate, Route, Routes } = Router;
 
 type SubnetSummary = {
   cidr: string;
@@ -65,13 +67,16 @@ const formatNumber = (value: number) => value.toLocaleString();
 
 const DEFAULT_CIDR = "192.168.1.0/24";
 
-export const SubnetCheatSheetPanel = () => {
+const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
+  isActive
+    ? "subnet-cheat-sheet__nav-link subnet-cheat-sheet__nav-link--active"
+    : "subnet-cheat-sheet__nav-link";
+
+const CalculatorPage = () => {
   const [cidrInput, setCidrInput] = useState(DEFAULT_CIDR);
   const [summary, setSummary] = useState<SubnetSummary | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const prefixRows = useMemo(() => DEFAULT_PREFIX_ROWS, []);
 
   const fetchSummary = useCallback(async (cidr: string) => {
     if (!cidr) {
@@ -110,15 +115,7 @@ export const SubnetCheatSheetPanel = () => {
   );
 
   return (
-    <section className="subnet-cheat-sheet">
-      <header>
-        <h1>Subnet calculator</h1>
-        <p>
-          Look up IPv4 ranges and compare prefix capacities without leaving the
-          Toolbox.
-        </p>
-      </header>
-
+    <div className="subnet-cheat-sheet__calculator">
       <form onSubmit={handleSubmit} className="subnet-cheat-sheet__form">
         <label htmlFor="subnet-cidr">
           CIDR network
@@ -177,36 +174,77 @@ export const SubnetCheatSheetPanel = () => {
           </div>
         </dl>
       ) : null}
+    </div>
+  );
+};
 
-      <section className="subnet-cheat-sheet__table">
-        <h2>Prefix cheat sheet</h2>
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">CIDR</th>
-              <th scope="col">Netmask</th>
-              <th scope="col">Wildcard</th>
-              <th scope="col">Usable hosts</th>
-              <th scope="col">Total addresses</th>
-              <th scope="col">Binary mask</th>
+const PrefixCheatSheetPage = () => {
+  const prefixRows = useMemo(() => DEFAULT_PREFIX_ROWS, []);
+
+  return (
+    <section className="subnet-cheat-sheet__table">
+      <h2>Prefix cheat sheet</h2>
+      <p>
+        Use this table to compare prefix capacities, netmasks, and wildcard
+        masks when planning address allocations.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">CIDR</th>
+            <th scope="col">Netmask</th>
+            <th scope="col">Wildcard</th>
+            <th scope="col">Usable hosts</th>
+            <th scope="col">Total addresses</th>
+            <th scope="col">Binary mask</th>
+          </tr>
+        </thead>
+        <tbody>
+          {prefixRows.map((row) => (
+            <tr key={row.prefix}>
+              <th scope="row">{row.cidr}</th>
+              <td>{row.netmask}</td>
+              <td>{row.wildcardMask}</td>
+              <td>{formatNumber(row.usableHosts)}</td>
+              <td>{formatNumber(row.totalAddresses)}</td>
+              <td>
+                <code>{row.binaryMask}</code>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {prefixRows.map((row) => (
-              <tr key={row.prefix}>
-                <th scope="row">{row.cidr}</th>
-                <td>{row.netmask}</td>
-                <td>{row.wildcardMask}</td>
-                <td>{formatNumber(row.usableHosts)}</td>
-                <td>{formatNumber(row.totalAddresses)}</td>
-                <td>
-                  <code>{row.binaryMask}</code>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  );
+};
+
+export const SubnetCheatSheetPanel = () => {
+  return (
+    <section className="subnet-cheat-sheet">
+      <header>
+        <h1>Subnet toolkit</h1>
+        <p>
+          Switch between the IPv4 calculator and the prefix reference without
+          leaving the Toolbox.
+        </p>
+      </header>
+
+      <nav className="subnet-cheat-sheet__nav" aria-label="Subnet toolkit sections">
+        <NavLink end to="" className={navLinkClassName}>
+          Calculator
+        </NavLink>
+        <NavLink to="cheat-sheet" className={navLinkClassName}>
+          Prefix cheat sheet
+        </NavLink>
+      </nav>
+
+      <div className="subnet-cheat-sheet__content">
+        <Routes>
+          <Route index element={<CalculatorPage />} />
+          <Route path="cheat-sheet" element={<PrefixCheatSheetPage />} />
+          <Route path="*" element={<Navigate to="." replace />} />
+        </Routes>
+      </div>
     </section>
   );
 };
