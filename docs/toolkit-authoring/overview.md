@@ -1,26 +1,62 @@
 # Toolkit Authoring Overview
 
-Use this guide as the starting point for building SRE Toolbox toolkits. It connects the runtime expectations baked into the App Shell, backend loader, and worker processes so every bundle installs cleanly and feels native to operators.
+Use this guide as the starting point for building SRE Toolbox toolkits. It connects the runtime expectations baked into the App
+Shell, backend loader, and worker processes so every bundle installs cleanly and feels native to operators. Pair this overview
+with the specialised guides in this folder when you need deeper implementation detail.
 
-## Lifecycle at a Glance
+## Lifecycle at a glance
+
 - **Design** – capture the operator workflow, required roles, and dashboard touchpoints your toolkit must cover.
 - **Scaffold** – follow the baseline directory structure (`toolkit.json`, `backend/`, `worker/`, `frontend/`).
-- **Develop** – iterate locally with the Toolbox stack (`npm run dev`, `uvicorn`, `celery`) so your toolkit interacts with live APIs.
+- **Develop** – iterate locally with the Toolbox stack (`npm run dev`, `uvicorn`, `celery`) so your toolkit interacts with live
+  APIs.
 - **Document** – add guides to `frontend/documentation` so the in-app knowledge base reflects new capabilities.
-- **Build & Release** – compile toolkit assets (for example, `frontend/dist/index.js`) and push the changes through the repository release workflow. CI packages the bundle automatically—no manual zip step required.
+- **Build & release** – compile toolkit assets (for example, `frontend/dist/index.js`) and push the changes through the repository
+  release workflow. CI packages the bundle automatically—no manual zip step required.
 
-## Key Runtime Contracts
-- `AppShell.tsx` injects `React`, `react-router-dom`, and `apiFetch` into `window.__SRE_TOOLKIT_RUNTIME`; avoid bundling those dependencies yourself.
-- Toolkits render under `/toolkits/:slug/*`; unauthenticated users hit `/login` and role checks (`RequireRole`, `RequireSuperuser`) gate admin routes.
-- `ToolkitRenderer` caches module imports per `toolkit.slug` and entry fields. Update `toolkit.updated_at` in `toolkit.json` when you want the shell to invalidate stale bundles.
-- Failed imports log warnings (`Toolkit <slug> import failed ...`) and fall back to `GenericToolkitPlaceholder`. Design your toolkit UI to degrade gracefully and surface actionable error states.
-- Shared Python helpers (Redis, jobs, Celery) live in `toolkit_runtime/`; review `docs/toolkit-runtime.md` before wiring backend routes or worker handlers so your telemetry matches the host.
+## Key runtime contracts
 
-## Slug Requirements
-- Declare a slug in `toolkit.json`; values must be lowercase and can only include letters, numbers, hyphen (`-`), or underscore (`_`).
-- The slug becomes the directory name under `TOOLKIT_STORAGE_DIR` and the namespace for dynamic imports. Invalid characters cause packaging and installation to fail before any files are written.
+- `AppShell.tsx` injects `React`, `react-router-dom`, and `apiFetch` into `window.__SRE_TOOLKIT_RUNTIME`; avoid bundling those
+  dependencies yourself.
+- Toolkits render under `/toolkits/:slug/*`; unauthenticated users hit `/login` and role checks (`RequireRole`, `RequireSuperuser`)
+  gate admin routes.
+- `ToolkitRenderer` caches module imports per `toolkit.slug` and entry fields. Update `toolkit.updated_at` in `toolkit.json` when
+  you want the shell to invalidate stale bundles.
+- Failed imports log warnings (`Toolkit <slug> import failed ...`) and fall back to `GenericToolkitPlaceholder`. Design your
+  toolkit UI to degrade gracefully and surface actionable error states.
+- Shared Python helpers (Redis, jobs, Celery) live in `toolkit_runtime/`; review `docs/toolkit-runtime.md` before wiring backend
+  routes or worker handlers so your telemetry matches the host.
 
-## Deliverables Checklist
+## Slug requirements
+
+- Declare a slug in `toolkit.json`; values must be lowercase and can only include letters, numbers, hyphen (`-`), or underscore
+  (`_`).
+- The slug becomes the directory name under `TOOLKIT_STORAGE_DIR` and the namespace for dynamic imports. Invalid characters cause
+  packaging and installation to fail before any files are written.
+
+## Standard directory layout
+
+Every toolkit follows the same top-level layout. Remove unused runtime directories so bundles stay small and avoid leaking
+placeholder files into releases.
+
+```
+toolkits/<slug>/
+├── toolkit.json
+├── backend/
+│   └── app.py (or equivalent router entry point)
+├── worker/
+│   └── __init__.py (Celery task registration)
+├── frontend/
+│   └── index.tsx (or entry file referenced by toolkit.json)
+└── docs/
+    ├── README.md
+    ├── RELEASE_NOTES.md
+    ├── CHANGELOG.md
+    └── TESTING.md
+```
+
+## Deliverables checklist
+
 - [ ] `toolkit.json` with backend, worker, catalog, and optional frontend metadata.
 - [ ] FastAPI router exposing your public API surface.
 - [ ] Celery registration for background jobs and job telemetry.
@@ -28,10 +64,23 @@ Use this guide as the starting point for building SRE Toolbox toolkits. It conne
 - [ ] Operator documentation, release notes, and a `docs/README.md` (or equivalent) summary file.
 - [ ] Automated tests for backend (`pytest`/`unittest`), worker tasks, and frontend (`vitest`).
 
-## Roles & Permissions
-- Declare expected roles in your design doc. The shell recognises `toolkit.curator` for toolkit admin tasks and `user.is_superuser` for auth changes (see `frontend/src/AppShell.tsx`).
+## Author workflow
+
+1. Create a feature branch such as `git checkout -b toolkit/<slug>-<change>`.
+2. Update `toolkits/<slug>/toolkit.json` with accurate metadata, runtime entry points, and optional catalog overrides.
+3. Implement backend, worker, and frontend modules—deleting unused runtime directories to keep the bundle lean.
+4. Refresh documentation under `toolkits/<slug>/docs/` (`README.md`, `RELEASE_NOTES.md`, `CHANGELOG.md`, `TESTING.md`).
+5. Validate your bundle following the [Testing & release checklist](./testing-and-release.md).
+6. Capture verification output and publish-ready notes in your pull request description.
+
+## Roles & permissions
+
+- Declare expected roles in your design doc. The shell recognises `toolkit.curator` for toolkit admin tasks and `user.is_superuser`
+  for auth changes (see `frontend/src/AppShell.tsx`).
 - Toolkits should enforce additional RBAC inside their APIs when necessary; the shell provides only coarse routing guards.
 
-The community repository ingests each toolkit's `docs/README.md` to generate catalog cards and quickstart links, so keeping that summary current ensures operators see accurate guidance wherever the toolkit is surfaced.
+The community repository ingests each toolkit's `docs/README.md` to generate catalog cards and quickstart links, so keeping that
+summary current ensures operators see accurate guidance wherever the toolkit is surfaced.
 
-Continue with the more detailed backend, frontend, versioning, and distribution guides in this folder. Consult [`versioning.md`](./versioning.md) when planning releases so manifest versions, changelog entries, and `toolkit.updated_at` timestamps stay aligned.
+Continue with the more detailed backend, frontend, versioning, and distribution guides in this folder. Consult [`versioning.md`](./versioning.md)
+when planning releases so manifest versions, changelog entries, and `toolkit.updated_at` timestamps stay aligned.

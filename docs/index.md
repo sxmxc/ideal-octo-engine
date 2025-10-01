@@ -13,8 +13,8 @@ category and tags before jumping into specific documentation.
 
 1. Read [architecture](architecture.md) for a refresher on the Toolbox control
    plane, worker, App Shell, and the dynamic bundler.
-2. Follow the author checklist in [toolkit authoring](toolkit-authoring.md) and
-   the test plan in [testing](testing.md).
+2. Walk through the [toolkit authoring guides](toolkit-authoring/overview.md)
+   and the test plan in [testing](testing.md).
 3. Keep the manifest rules in [catalog maintenance](catalog.md) handy when
    updating `catalog/toolkits.json`.
 4. Use [dynamic bundler operations](bundler.md) to run or verify the on-demand

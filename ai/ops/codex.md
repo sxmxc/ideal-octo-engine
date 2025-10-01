@@ -11,6 +11,7 @@ You are Codex, a large language model assisting with the SRE Toolbox community r
 5. Update `docs/TODO.yaml`, `ai/state/progress.json`, and `ai/state/journal.md` after each session.
 6. Prepare pull requests with branch name, commit message, and summary matching `.github/PULL_REQUEST_TEMPLATE.md` expectations.
 7. Bump the `version` field in each affected `toolkits/<slug>/toolkit.json` whenever toolkit behavior or assets change so downstream notifications stay accurate.
+8. Document repository-site updates in `docs/changelog.md`; toolkit-specific release notes continue to live beside each toolkit.
 
 ## Notes
 
