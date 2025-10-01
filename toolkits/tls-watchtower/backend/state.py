@@ -1,0 +1,166 @@
+"""State management for TLS Watchtower."""
+from __future__ import annotations
+
+import hashlib
+from dataclasses import dataclass, field
+from datetime import UTC, datetime, timedelta
+from threading import Lock
+from typing import Iterable
+
+from .models import CertificateSnapshot, HistoryEntry
+
+SEED_HOSTS: dict[str, int] = {
+    "edge-critical.example": 3,
+    "staging-gateway.example": 12,
+}
+
+THRESHOLDS: dict[str, int] = {"critical": 7, "warning": 14, "watch": 30}
+
+
+@dataclass(slots=True)
+class CertificateRecord:
+    """Internal representation of a monitored certificate."""
+
+    host: str
+    port: int
+    expires_at: datetime
+    last_scanned_at: datetime
+    days_remaining: int
+    status: str
+    status_label: str
+    renewal_message: str
+    error: str | None = None
+    history: list[HistoryEntry] = field(default_factory=list)
+
+    def snapshot(self) -> CertificateSnapshot:
+        """Return a serialisable view of the record."""
+
+        return CertificateSnapshot(
+            host=self.host,
+            port=self.port,
+            expires_at=self.expires_at,
+            last_scanned_at=self.last_scanned_at,
+            days_remaining=self.days_remaining,
+            status=self.status,  # type: ignore[arg-type]
+            status_label=self.status_label,
+            renewal_message=self.renewal_message,
+            error=self.error,
+            history=self.history,
+        )
+
+
+class CertificateStore:
+    """In-memory store for certificate records."""
+
+    def __init__(self) -> None:
+        self._lock = Lock()
+        self._records: dict[str, CertificateRecord] = {}
+        self._seed_records()
+
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
+    def list_records(self) -> list[CertificateRecord]:
+        with self._lock:
+            return sorted(self._records.values(), key=lambda record: record.days_remaining)
+
+    def get_record(self, host: str) -> CertificateRecord | None:
+        with self._lock:
+            return self._records.get(host)
+
+    def scan(self, host: str, port: int = 443, *, source: str, reason: str | None = None) -> CertificateRecord:
+        """Simulate a certificate scan and update state."""
+
+        now = datetime.now(UTC)
+        expires_at = self._determine_expiry(host, port, now)
+        days_remaining = max(0, (expires_at - now).days)
+        status, label = self._categorise(days_remaining)
+        renewal_message = self._compose_message(status, days_remaining)
+
+        history_entry = HistoryEntry(scanned_at=now, expires_at=expires_at, status=status)
+
+        with self._lock:
+            record = CertificateRecord(
+                host=host,
+                port=port,
+                expires_at=expires_at,
+                last_scanned_at=now,
+                days_remaining=days_remaining,
+                status=status,
+                status_label=label,
+                renewal_message=renewal_message,
+                error=None,
+                history=self._build_history(host, history_entry),
+            )
+            self._records[host] = record
+            return record
+
+    def bulk_scan(self, hosts: Iterable[str]) -> list[CertificateRecord]:
+        """Scan multiple hosts and return updated records."""
+
+        results: list[CertificateRecord] = []
+        for host in hosts:
+            record = self.scan(host, source="scheduled")
+            results.append(record)
+        return results
+
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
+    def _seed_records(self) -> None:
+        """Populate the store with deterministic sample records."""
+
+        for host, days in SEED_HOSTS.items():
+            now = datetime.now(UTC)
+            expires_at = now + timedelta(days=days)
+            status, label = self._categorise(days)
+            renewal_message = self._compose_message(status, days)
+            history_entry = HistoryEntry(scanned_at=now, expires_at=expires_at, status=status)
+            self._records[host] = CertificateRecord(
+                host=host,
+                port=443,
+                expires_at=expires_at,
+                last_scanned_at=now,
+                days_remaining=days,
+                status=status,
+                status_label=label,
+                renewal_message=renewal_message,
+                error=None,
+                history=[history_entry],
+            )
+
+    def _determine_expiry(self, host: str, port: int, now: datetime) -> datetime:
+        if host in SEED_HOSTS:
+            return now + timedelta(days=SEED_HOSTS[host])
+
+        digest = hashlib.sha256(f"{host}:{port}".encode()).digest()
+        span_days = 10 + digest[0] % 60
+        return now + timedelta(days=span_days)
+
+    def _categorise(self, days_remaining: int) -> tuple[str, str]:
+        if days_remaining <= THRESHOLDS["critical"]:
+            return "critical", "Renew immediately"
+        if days_remaining <= THRESHOLDS["warning"]:
+            return "warning", "Plan emergency renewal"
+        if days_remaining <= THRESHOLDS["watch"]:
+            return "watch", "Schedule renewal window"
+        return "ok", "Certificate within healthy window"
+
+    def _compose_message(self, status: str, days_remaining: int) -> str:
+        if status == "critical":
+            return "Expiration imminent – engage incident response runbook."
+        if status == "warning":
+            return "Renewal required this week to avoid downtime."
+        if status == "watch":
+            return "Begin coordination with owners to confirm rollout."
+        return f"{days_remaining} days remaining. Continue monitoring."
+
+    def _build_history(self, host: str, entry: HistoryEntry) -> list[HistoryEntry]:
+        existing = self._records.get(host)
+        history = [entry]
+        if existing:
+            history.extend(existing.history)
+        return history[:20]
+
+
+store = CertificateStore()

@@ -28,3 +28,8 @@ Use this file to capture session-level notes. Each entry should record tasks att
 - Restyled the Subnet toolkit panel to use shared card patterns, iconography, and inline styles consistent with Latency Sleuth.
 - Added inline calculator/table refinements for better readability and responsive layout, including loading and error affordances.
 - Bumped the toolkit manifest to version 0.3.0 and updated AI state to record the release.
+
+## 2025-10-01 TLS Watchtower toolkit bootstrap
+- Built the TLS Watchtower bundle with FastAPI scan routes, Celery sweep/retry tasks, and a seeded in-memory store.
+- Authored React dashboard assets, documentation set, and updated changelog plus catalog metadata for the new toolkit.
+

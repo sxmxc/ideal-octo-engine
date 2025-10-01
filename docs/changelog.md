@@ -3,6 +3,7 @@
 Use this document to record notable changes to published toolkits and repository automation.
 
 ## [Unreleased]
+- Added the TLS Watchtower toolkit with FastAPI, Celery, and React assets for certificate expiry monitoring.
 - Replaced static bundle assets with the dynamic bundler contract
   (`toolkits/<slug>/bundle.zip`).
 - Consolidated documentation into architecture, catalog, toolkit authoring,

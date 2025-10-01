@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2025-10-01T05:17:26Z",
+  "generated_at": "2025-10-01T06:02:46Z",
   "toolkits": [
     {
       "slug": "api_checker",
@@ -125,6 +125,27 @@
       "categories": [
         "Networking",
         "Diagnostics"
+      ]
+    },
+    {
+      "slug": "tls-watchtower",
+      "name": "TLS Watchtower",
+      "version": "0.1.0",
+      "description": "Monitor SSL/TLS certificate expirations, queue renewals, and surface red/yellow/green dashboards.",
+      "tags": [
+        "tls",
+        "certificates",
+        "observability"
+      ],
+      "maintainers": [
+        "toolbox-maintainers@example.com"
+      ],
+      "source": "toolkits/tls-watchtower",
+      "docs_url": "toolkits/tls-watchtower/",
+      "bundle_url": "toolkits/tls-watchtower/bundle.zip",
+      "categories": [
+        "Security",
+        "Monitoring"
       ]
     },
     {
