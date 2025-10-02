@@ -95,12 +95,12 @@ class CertificateStore:
             self._records[host] = record
             return record
 
-    def bulk_scan(self, hosts: Iterable[str]) -> list[CertificateRecord]:
-        """Scan multiple hosts and return updated records."""
+    def bulk_scan(self, targets: Iterable[tuple[str, int]]) -> list[CertificateRecord]:
+        """Scan multiple host/port pairs and return updated records."""
 
         results: list[CertificateRecord] = []
-        for host in hosts:
-            record = self.scan(host, source="scheduled")
+        for host, port in targets:
+            record = self.scan(host, port, source="scheduled")
             results.append(record)
         return results
 
