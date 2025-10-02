@@ -1,0 +1,36 @@
+{
+  "slug": "tls-watchtower",
+  "name": "TLS Watchtower",
+  "version": "0.1.0",
+  "description": "Certificate health scanner with expiry forecasts and seeded lab hosts.",
+  "base_path": "/toolkits/tls-watchtower",
+  "backend": {
+    "module": "backend.routes",
+    "router_attr": "router"
+  },
+  "worker": {
+    "module": "worker.tasks",
+    "register_attr": "register"
+  },
+  "frontend": {
+    "entry": "frontend/dist/index.js",
+    "source_entry": "frontend/index.tsx"
+  },
+  "docs": {
+    "overview": "docs/README.md"
+  },
+  "catalog": {
+    "categories": ["Security", "Monitoring"],
+    "maintainers": ["toolbox-maintainers@example.com"],
+    "tags": ["tls", "certificates", "observability"],
+    "description": "Monitor SSL/TLS certificate expirations, queue renewals, and surface red/yellow/green dashboards."
+  },
+  "dashboard_cards": [
+    {
+      "title": "Certificate expirations",
+      "body": "Track hosts nearing expiry with Watchtower's red/yellow/green health bands.",
+      "link_text": "Open",
+      "link_href": "/toolkits/tls-watchtower"
+    }
+  ]
+}
