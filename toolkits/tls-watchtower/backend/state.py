@@ -104,6 +104,58 @@ class CertificateStore:
             results.append(record)
         return results
 
+    def add_host(
+        self,
+        host: str,
+        port: int,
+        *,
+        source: str,
+        reason: str | None = None,
+    ) -> CertificateRecord:
+        """Register a new host/port combination for monitoring."""
+
+        with self._lock:
+            if host in self._records:
+                raise ValueError(f"{host} is already being monitored")
+
+        return self.scan(host, port, source=source, reason=reason)
+
+    def update_host(
+        self,
+        host: str,
+        *,
+        new_host: str | None = None,
+        port: int | None = None,
+        source: str,
+        reason: str | None = None,
+    ) -> CertificateRecord:
+        """Update an existing host, optionally renaming or changing the port."""
+
+        with self._lock:
+            record = self._records.get(host)
+            if record is None:
+                raise KeyError(host)
+
+            target_host = new_host or host
+            target_port = port if port is not None else record.port
+
+            if target_host != host and target_host in self._records:
+                raise ValueError(f"{target_host} is already being monitored")
+
+            preserved_history = list(record.history)
+
+        updated_record = self.scan(target_host, target_port, source=source, reason=reason)
+
+        if target_host != host:
+            with self._lock:
+                if host in self._records:
+                    del self._records[host]
+                if preserved_history:
+                    updated_record.history.extend(preserved_history[:19])
+                    updated_record.history = updated_record.history[:20]
+
+        return updated_record
+
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------

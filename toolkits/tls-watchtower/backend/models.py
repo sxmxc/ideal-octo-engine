@@ -20,6 +20,38 @@ class ScanRequest(BaseModel):
     )
 
 
+class HostRegistration(BaseModel):
+    """Payload used to register a new endpoint for monitoring."""
+
+    host: str = Field(..., min_length=1, max_length=255, description="Hostname or FQDN")
+    port: int = Field(443, ge=1, le=65535, description="TLS port to probe")
+
+    @validator("host")
+    def normalise_host(cls, value: str) -> str:  # noqa: N805
+        """Trim whitespace from supplied hostnames."""
+
+        trimmed = value.strip()
+        if not trimmed:
+            raise ValueError("host must not be empty")
+        return trimmed
+
+
+class HostUpdate(BaseModel):
+    """Payload accepted when editing an existing endpoint."""
+
+    host: str | None = Field(None, min_length=1, max_length=255, description="Updated hostname")
+    port: int | None = Field(None, ge=1, le=65535, description="Updated port")
+
+    @validator("host")
+    def normalise_host(cls, value: str | None) -> str | None:  # noqa: N805
+        if value is None:
+            return value
+        trimmed = value.strip()
+        if not trimmed:
+            raise ValueError("host must not be empty")
+        return trimmed
+
+
 class HistoryEntry(BaseModel):
     """Historical record for a prior scan run."""
 
