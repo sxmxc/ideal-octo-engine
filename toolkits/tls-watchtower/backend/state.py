@@ -71,29 +71,8 @@ class CertificateStore:
     def scan(self, host: str, port: int = 443, *, source: str, reason: str | None = None) -> CertificateRecord:
         """Simulate a certificate scan and update state."""
 
-        now = datetime.now(UTC)
-        expires_at = self._determine_expiry(host, port, now)
-        days_remaining = max(0, (expires_at - now).days)
-        status, label = self._categorise(days_remaining)
-        renewal_message = self._compose_message(status, days_remaining)
-
-        history_entry = HistoryEntry(scanned_at=now, expires_at=expires_at, status=status)
-
         with self._lock:
-            record = CertificateRecord(
-                host=host,
-                port=port,
-                expires_at=expires_at,
-                last_scanned_at=now,
-                days_remaining=days_remaining,
-                status=status,
-                status_label=label,
-                renewal_message=renewal_message,
-                error=None,
-                history=self._build_history(host, history_entry),
-            )
-            self._records[host] = record
-            return record
+            return self._scan_locked(host, port, source=source, reason=reason)
 
     def bulk_scan(self, targets: Iterable[tuple[str, int]]) -> list[CertificateRecord]:
         """Scan multiple host/port pairs and return updated records."""
@@ -103,6 +82,90 @@ class CertificateStore:
             record = self.scan(host, port, source="scheduled")
             results.append(record)
         return results
+
+    def _scan_locked(
+        self,
+        host: str,
+        port: int,
+        *,
+        source: str,
+        reason: str | None = None,
+    ) -> CertificateRecord:
+        """Internal helper that assumes the caller already holds ``self._lock``."""
+
+        now = datetime.now(UTC)
+        expires_at = self._determine_expiry(host, port, now)
+        days_remaining = max(0, (expires_at - now).days)
+        status, label = self._categorise(days_remaining)
+        renewal_message = self._compose_message(status, days_remaining)
+
+        history_entry = HistoryEntry(scanned_at=now, expires_at=expires_at, status=status)
+
+        record = CertificateRecord(
+            host=host,
+            port=port,
+            expires_at=expires_at,
+            last_scanned_at=now,
+            days_remaining=days_remaining,
+            status=status,
+            status_label=label,
+            renewal_message=renewal_message,
+            error=None,
+            history=self._build_history(host, history_entry),
+        )
+        self._records[host] = record
+        return record
+
+    def add_host(
+        self,
+        host: str,
+        port: int,
+        *,
+        source: str,
+        reason: str | None = None,
+    ) -> CertificateRecord:
+        """Register a new host/port combination for monitoring."""
+
+        with self._lock:
+            if host in self._records:
+                raise ValueError(f"{host} is already being monitored")
+
+            return self._scan_locked(host, port, source=source, reason=reason)
+
+    def update_host(
+        self,
+        host: str,
+        *,
+        new_host: str | None = None,
+        port: int | None = None,
+        source: str,
+        reason: str | None = None,
+    ) -> CertificateRecord:
+        """Update an existing host, optionally renaming or changing the port."""
+
+        with self._lock:
+            record = self._records.get(host)
+            if record is None:
+                raise KeyError(host)
+
+            target_host = new_host or host
+            target_port = port if port is not None else record.port
+
+            if target_host != host and target_host in self._records:
+                raise ValueError(f"{target_host} is already being monitored")
+
+            preserved_history = list(record.history)
+
+            updated_record = self._scan_locked(target_host, target_port, source=source, reason=reason)
+
+            if target_host != host:
+                if host in self._records:
+                    del self._records[host]
+                if preserved_history:
+                    updated_record.history.extend(preserved_history[:19])
+                    updated_record.history = updated_record.history[:20]
+
+            return updated_record
 
     # ------------------------------------------------------------------
     # Helpers
@@ -156,6 +219,8 @@ class CertificateStore:
         return f"{days_remaining} days remaining. Continue monitoring."
 
     def _build_history(self, host: str, entry: HistoryEntry) -> list[HistoryEntry]:
+        """Return updated history for ``host``; requires the caller to hold the lock."""
+
         existing = self._records.get(host)
         history = [entry]
         if existing:

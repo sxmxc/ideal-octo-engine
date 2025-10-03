@@ -26,8 +26,10 @@ that visualises approaching expirations with red/yellow/green bands.
   `toolkits/tls-watchtower/backend/state.py`, seeding two deterministic hosts so
   reviewers can validate the UI without external dependencies.
 - `/toolkits/tls-watchtower/hosts` returns the current inventory ordered by time
-  to expiration, while `/toolkits/tls-watchtower/expiry/{host}` surfaces a single
-  record.
+  to expiration. The same endpoint now accepts `POST` requests to register new
+  hosts and `PUT /toolkits/tls-watchtower/hosts/{host}` to edit existing
+  entries, matching the dashboard's add/edit controls.
+- `/toolkits/tls-watchtower/expiry/{host}` surfaces a single record.
 - `POST /toolkits/tls-watchtower/scan` triggers a recomputation for ad-hoc
   scans, using hashed host values to create deterministic pseudo-expirations for
   new entries.
