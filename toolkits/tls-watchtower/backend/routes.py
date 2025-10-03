@@ -6,7 +6,7 @@ from fastapi import APIRouter, HTTPException
 from .models import CertificateSnapshot, ScanRequest
 from .state import store
 
-router = APIRouter(prefix="/toolkits/tls-watchtower", tags=["tls-watchtower"])
+router = APIRouter(tags=["tls-watchtower"])
 
 
 @router.get("/hosts", response_model=list[CertificateSnapshot])
